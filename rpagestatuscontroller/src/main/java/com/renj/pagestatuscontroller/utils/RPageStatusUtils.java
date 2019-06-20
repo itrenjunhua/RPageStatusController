@@ -15,4 +15,18 @@ package com.renj.pagestatuscontroller.utils;
  * ======================================================================
  */
 public class RPageStatusUtils {
+    public static boolean isNull(Object object) {
+        return object == null;
+    }
+
+    public static boolean isNull(Object... objects) {
+        if (objects == null) return true;
+
+        for (Object object : objects) {
+            if (isNull(object))
+                return true;
+        }
+
+        return false;
+    }
 }

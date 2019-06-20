@@ -12,6 +12,7 @@ import android.view.View;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.listener.IRPageEventListener;
+import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
  * ======================================================================
@@ -29,6 +30,7 @@ import com.renj.pagestatuscontroller.listener.IRPageEventListener;
  */
 public class RPageStatusController implements IRPageStatusController<RPageStatusController> {
     private SparseArray<RPageStatusLayoutInfo> mRPageStatusLayoutArray = new SparseArray<>();
+    private RPageStatusBindInfo rPageStatusBindInfo;
 
     private RPageStatusController() {
     }
@@ -45,7 +47,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController bind(@NonNull Activity activity) {
-        return null;
+        if (RPageStatusUtils.isNull(activity))
+            throw new IllegalArgumentException("params can not null.");
+        rPageStatusBindInfo.object = activity;
+        rPageStatusBindInfo.targetView = activity.findViewById(android.R.id.content);
+        return this;
     }
 
     /**
@@ -57,7 +63,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController bind(@NonNull Fragment fragment, @NonNull View view) {
-        return null;
+        if (RPageStatusUtils.isNull(fragment, view))
+            throw new IllegalArgumentException("params can not null.");
+        rPageStatusBindInfo.object = fragment;
+        rPageStatusBindInfo.targetView = view;
+        return this;
     }
 
     /**
@@ -69,7 +79,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
-        return null;
+        if (RPageStatusUtils.isNull(fragment, view))
+            throw new IllegalArgumentException("params can not null.");
+        rPageStatusBindInfo.object = fragment;
+        rPageStatusBindInfo.targetView = view;
+        return this;
     }
 
     /**
@@ -80,7 +94,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController bind(@NonNull View view) {
-        return null;
+        if (RPageStatusUtils.isNull(view))
+            throw new IllegalArgumentException("params can not null.");
+        rPageStatusBindInfo.object = view;
+        rPageStatusBindInfo.targetView = view;
+        return this;
     }
 
     /**
