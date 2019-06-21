@@ -40,7 +40,7 @@ public class RPageStatusLayout extends FrameLayout {
     }
 
     private void initView(Context context) {
-        View pageStatusView = LayoutInflater.from(context).inflate(R.layout.r_page_status_layout, this, false);
+        View pageStatusView = LayoutInflater.from(context).inflate(R.layout.r_page_status_layout, this, true);
         mPageStatusViewArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
         mPageStatusViewArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
         mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
@@ -83,9 +83,9 @@ public class RPageStatusLayout extends FrameLayout {
             }
 
             if (targetIndexInParentView != -1) {
-                // 将 contentView 添加到当前控件，然后用当前控件替换 contentView
-                this.addView(contentView);
+                // 先将 contentView 从原来的位置移除，然后添加到当前控件中，再用当前控件替换 contentView
                 targetParentView.removeViewAt(targetIndexInParentView);
+                this.addView(contentView);
                 targetParentView.addView(this, targetIndexInParentView, contentView.getLayoutParams());
             }
         }
