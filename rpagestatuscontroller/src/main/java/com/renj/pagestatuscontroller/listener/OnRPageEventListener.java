@@ -8,7 +8,7 @@ import android.view.View;
  * ======================================================================
  * <p>
  * 作者：Renj
- * 邮箱：renjunhua@anlovek.com
+ * 邮箱：itrenjunhua@163.com
  * <p>
  * 创建时间：2019-06-20   14:44
  * <p>

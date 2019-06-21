@@ -15,7 +15,7 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  * ======================================================================
  * <p>
  * 作者：Renj
- * 邮箱：renjunhua@anlovek.com
+ * 邮箱：itrenjunhua@163.com
  * <p>
  * 创建时间：2019-06-20   14:45
  * <p>
@@ -48,7 +48,7 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
         RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.NO_CLICK);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
+        return INSTANCE;
     }
 
     /**
@@ -65,7 +65,7 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
         RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
+        return INSTANCE;
     }
 
     /**
@@ -82,6 +82,6 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
         RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
+        return INSTANCE;
     }
 }

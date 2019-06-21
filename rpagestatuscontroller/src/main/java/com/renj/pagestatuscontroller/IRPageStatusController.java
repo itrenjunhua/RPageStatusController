@@ -11,7 +11,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatus;
  * ======================================================================
  * <p>
  * 作者：Renj
- * 邮箱：renjunhua@anlovek.com
+ * 邮箱：itrenjunhua@163.com
  * <p>
  * 创建时间：2019-06-20   14:44
  * <p>
@@ -28,7 +28,7 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param activity {@link Activity}
      * @return
      */
-    T bind(@NonNull Activity activity);
+    void bind(@NonNull Activity activity);
 
     /**
      * 绑定 {@link Fragment}
@@ -37,7 +37,7 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param view     {@link Fragment}根View
      * @return
      */
-    T bind(@NonNull Fragment fragment, @NonNull View view);
+    View bind(@NonNull Fragment fragment, @NonNull View view);
 
     /**
      * 绑定 {@link android.app.Fragment}
@@ -46,7 +46,7 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param view     {@link android.app.Fragment}根View
      * @return
      */
-    T bind(@NonNull android.app.Fragment fragment, @NonNull View view);
+    View bind(@NonNull android.app.Fragment fragment, @NonNull View view);
 
     /**
      * 绑定到 {@link View}
@@ -54,7 +54,7 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param view {@link View}
      * @return
      */
-    T bind(@NonNull View view);
+    void bind(@NonNull View view);
 
     /**
      * 修改页面状态

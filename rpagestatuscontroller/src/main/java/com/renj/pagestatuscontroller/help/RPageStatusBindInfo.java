@@ -7,7 +7,7 @@ import android.view.View;
  * ======================================================================
  * <p>
  * 作者：Renj
- * 邮箱：renjunhua@anlovek.com
+ * 邮箱：itrenjunhua@163.com
  * <p>
  * 创建时间：2019-06-20   17:27
  * <p>
@@ -17,11 +17,11 @@ import android.view.View;
  * <p>
  * ======================================================================
  */
-public class RPageStatusBindInfo {
-    public Object object;
-    public View targetView;
+/*public*/ class RPageStatusBindInfo {
+    Object object;
+    View targetView;
 
-    public RPageStatusBindInfo(@NonNull Object object, @NonNull View targetView) {
+    RPageStatusBindInfo(@NonNull Object object, @NonNull View targetView) {
         this.object = object;
         this.targetView = targetView;
     }

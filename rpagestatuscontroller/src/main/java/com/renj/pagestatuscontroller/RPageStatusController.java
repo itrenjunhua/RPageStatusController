@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
-import com.renj.pagestatuscontroller.help.RPageStatusBindInfo;
+import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
@@ -21,7 +21,7 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  * ======================================================================
  * <p>
  * 作者：Renj
- * 邮箱：renjunhua@anlovek.com
+ * 邮箱：itrenjunhua@163.com
  * <p>
  * 创建时间：2019-06-20   14:45
  * <p>
@@ -33,9 +33,10 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  */
 public class RPageStatusController implements IRPageStatusController<RPageStatusController> {
     private SparseArray<RPageStatusLayoutInfo> mRPageStatusLayoutArray = new SparseArray<>();
-    private RPageStatusBindInfo rPageStatusBindInfo;
+    private RPageStatusHelp mRPageStatusHelp;
 
     private RPageStatusController() {
+        RPageStatusUtils.copyRPageStatusLayoutInfo(RPageStatusManager.mRPageStatusLayoutArray, mRPageStatusLayoutArray);
     }
 
     public static RPageStatusController get() {
@@ -49,13 +50,14 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController bind(@NonNull Activity activity) {
+    public void bind(@NonNull Activity activity) {
+        checkBindingStatus();
         RPageStatusUtils.checkParams(activity);
         View contentView = activity.findViewById(android.R.id.content);
         if (RPageStatusUtils.isNull(contentView))
-            throw new IllegalStateException("bind activity fail: cannot find contentView.");
-        rPageStatusBindInfo = new RPageStatusBindInfo(activity, contentView);
-        return this;
+            throw new IllegalStateException("bind activity failed: cannot find contentView.");
+        mRPageStatusHelp = new RPageStatusHelp(activity, activity, contentView);
+        mRPageStatusHelp.bindActivity();
     }
 
     /**
@@ -66,10 +68,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController bind(@NonNull Fragment fragment, @NonNull View view) {
+    public View bind(@NonNull Fragment fragment, @NonNull View view) {
+        checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        rPageStatusBindInfo = new RPageStatusBindInfo(fragment, view);
-        return this;
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, view);
+        return mRPageStatusHelp.bindFragmentSupport();
     }
 
     /**
@@ -80,10 +83,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
+    public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
+        checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        rPageStatusBindInfo = new RPageStatusBindInfo(fragment, view);
-        return this;
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, view);
+        return mRPageStatusHelp.bindFragment();
     }
 
     /**
@@ -93,13 +97,19 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController bind(@NonNull View view) {
+    public void bind(@NonNull View view) {
+        checkBindingStatus();
         RPageStatusUtils.checkParams(view);
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (RPageStatusUtils.isNull(parentView))
-            throw new IllegalStateException("bind view fail: cannot find parent view.");
-        rPageStatusBindInfo = new RPageStatusBindInfo(parentView, view);
-        return this;
+            throw new IllegalStateException("bind view failed: cannot find parent view.");
+        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), parentView, view);
+        mRPageStatusHelp.bindView();
+    }
+
+    private void checkBindingStatus() {
+        if (!RPageStatusUtils.isNull(mRPageStatusHelp))
+            throw new IllegalStateException("Cannot repeat binding.");
     }
 
     /**
@@ -108,9 +118,11 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @param pageStatus 状态值
      */
     @Override
-    public void changePageStatus(int pageStatus) {
-        if (RPageStatusUtils.isNull(rPageStatusBindInfo))
+    public void changePageStatus(@RPageStatus int pageStatus) {
+        if (RPageStatusUtils.isNull(mRPageStatusHelp))
             throw new IllegalStateException("nothing bind.please call bind() method.");
+
+        mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
     }
 
     /**
@@ -131,9 +143,9 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     /**
      * 增加状态页面布局
      *
-     * @param pageStatus          页面状态 {@link RPageStatus}
-     * @param layoutId            布局资源id
-     * @param viewId              布局文件中有点击事件的View的id
+     * @param pageStatus           页面状态 {@link RPageStatus}
+     * @param layoutId             布局资源id
+     * @param viewId               布局文件中有点击事件的View的id
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
@@ -148,9 +160,9 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     /**
      * 增加状态页面布局
      *
-     * @param pageStatus          页面状态 {@link RPageStatus}
-     * @param layoutId            布局资源id
-     * @param viewIds             布局文件中有点击事件的View的id集合
+     * @param pageStatus           页面状态 {@link RPageStatus}
+     * @param layoutId             布局资源id
+     * @param viewIds              布局文件中有点击事件的View的id集合
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
