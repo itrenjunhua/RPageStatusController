@@ -46,10 +46,6 @@ public class RPageStatusLayout extends FrameLayout {
         mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
         mPageStatusViewArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
         mPageStatusViewArray.put(RPageStatus.NOT_FOUND, (ViewStub) pageStatusView.findViewById(R.id.not_found_view));
-
-        // 获取目标View的布局参数，并设置给当前 View
-//        ViewGroup.LayoutParams layoutParams = mRPageStatusBindInfo.targetView.getLayoutParams();
-//        this.setLayoutParams(layoutParams);
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
@@ -83,10 +79,11 @@ public class RPageStatusLayout extends FrameLayout {
             }
 
             if (targetIndexInParentView != -1) {
+                ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
                 // 先将 contentView 从原来的位置移除，然后添加到当前控件中，再用当前控件替换 contentView
                 targetParentView.removeViewAt(targetIndexInParentView);
                 this.addView(contentView);
-                targetParentView.addView(this, targetIndexInParentView, contentView.getLayoutParams());
+                targetParentView.addView(this, targetIndexInParentView, layoutParams);
             }
         }
     }
