@@ -1,5 +1,6 @@
-package com.renj.pagestatuscontroller;
+package com.renj.pagestatuscontroller.help;
 
+import android.support.annotation.NonNull;
 import android.view.View;
 
 /**
@@ -19,4 +20,9 @@ import android.view.View;
 public class RPageStatusBindInfo {
     public Object object;
     public View targetView;
+
+    public RPageStatusBindInfo(@NonNull Object object, @NonNull View targetView) {
+        this.object = object;
+        this.targetView = targetView;
+    }
 }

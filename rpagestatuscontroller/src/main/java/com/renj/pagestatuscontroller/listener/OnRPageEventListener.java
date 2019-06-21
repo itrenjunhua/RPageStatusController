@@ -18,6 +18,6 @@ import android.view.View;
  * <p>
  * ======================================================================
  */
-public interface IRPageEventListener {
+public interface OnRPageEventListener {
     void onViewClick(@NonNull Object object, @NonNull View view, @IdRes int viewId);
 }

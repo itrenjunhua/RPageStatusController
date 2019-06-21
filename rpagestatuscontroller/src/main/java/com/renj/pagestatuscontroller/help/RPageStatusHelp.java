@@ -1,4 +1,4 @@
-package com.renj.pagestatuscontroller;
+package com.renj.pagestatuscontroller.help;
 
 /**
  * ======================================================================
@@ -14,5 +14,5 @@ package com.renj.pagestatuscontroller;
  * <p>
  * ======================================================================
  */
-/*public*/ class RPageStatusHelp {
+public class RPageStatusHelp {
 }

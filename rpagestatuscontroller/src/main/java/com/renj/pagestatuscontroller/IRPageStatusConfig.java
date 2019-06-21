@@ -5,7 +5,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
-import com.renj.pagestatuscontroller.listener.IRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
 
 /**
  * ======================================================================
@@ -37,10 +37,10 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param pageStatus          页面状态 {@link RPageStatus}
      * @param layoutId            布局资源id
      * @param viewId              布局文件中有点击事件的View的id
-     * @param irPageEventListener 点击事件回调监听
+     * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, @Nullable IRPageEventListener irPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, @Nullable OnRPageEventListener onRPageEventListener);
 
 
     /**
@@ -49,8 +49,8 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param pageStatus          页面状态 {@link RPageStatus}
      * @param layoutId            布局资源id
      * @param viewIds             布局文件中有点击事件的View的id集合
-     * @param irPageEventListener 点击事件回调监听
+     * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, @Nullable IRPageEventListener irPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener);
 }

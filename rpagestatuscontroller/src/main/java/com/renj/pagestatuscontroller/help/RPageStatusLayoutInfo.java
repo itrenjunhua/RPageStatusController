@@ -1,4 +1,4 @@
-package com.renj.pagestatuscontroller;
+package com.renj.pagestatuscontroller.help;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.IntRange;
@@ -6,7 +6,7 @@ import android.support.annotation.LayoutRes;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
-import com.renj.pagestatuscontroller.listener.IRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
 
 /**
  * ======================================================================
@@ -22,7 +22,7 @@ import com.renj.pagestatuscontroller.listener.IRPageEventListener;
  * <p>
  * ======================================================================
  */
-/*public*/ class RPageStatusLayoutInfo {
+public class RPageStatusLayoutInfo {
     @RPageStatus
     @IntRange(from = 0, to = 5)
     public int pageStatus;
@@ -33,27 +33,27 @@ import com.renj.pagestatuscontroller.listener.IRPageEventListener;
     @IdRes
     public int viewId;
     public int[] viewIds;
-    public IRPageEventListener irPageEventListener;
+    OnRPageEventListener onRPageEventListener;
 
-    RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
     }
 
-    RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId, IRPageEventListener irPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
         this.viewId = viewId;
-        this.irPageEventListener = irPageEventListener;
+        this.onRPageEventListener = onRPageEventListener;
     }
 
-    RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds, IRPageEventListener irPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
         this.viewIds = viewIds;
-        this.irPageEventListener = irPageEventListener;
+        this.onRPageEventListener = onRPageEventListener;
     }
 }

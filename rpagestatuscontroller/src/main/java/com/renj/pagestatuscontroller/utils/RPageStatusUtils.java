@@ -1,5 +1,7 @@
 package com.renj.pagestatuscontroller.utils;
 
+import com.renj.pagestatuscontroller.annotation.RPageStatus;
+
 /**
  * ======================================================================
  * <p>
@@ -26,7 +28,24 @@ public class RPageStatusUtils {
             if (isNull(object))
                 return true;
         }
-
         return false;
+    }
+
+    public static void checkParams(Object object) {
+        if (isNull(object)) {
+            throw new IllegalArgumentException("The parameter cannot be null.");
+        }
+    }
+
+    public static void checkParams(Object... objects) {
+        if (isNull(objects)) {
+            throw new IllegalArgumentException("The parameter cannot be null.");
+        }
+    }
+
+    public static void checkAddContentStatusPage(@RPageStatus int pageStatusValue) {
+        if (pageStatusValue == RPageStatus.CONTENT) {
+            throw new IllegalArgumentException("Cannot add " + pageStatusValue + " status configuration.");
+        }
     }
 }
