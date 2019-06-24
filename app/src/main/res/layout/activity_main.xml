@@ -3,18 +3,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="16dp"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
-    <View
+    <Button
+        android:id="@+id/bt_bind_activity"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="@color/colorPrimary"/>
+        android:layout_height="wrap_content"
+        android:text="@string/bt_bind_activity"
+        android:textAllCaps="false" />
 
-    <FrameLayout
-        android:id="@+id/fl_content"
+    <Button
+        android:id="@+id/bt_bind_fragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_height="wrap_content"
+        android:text="@string/bt_bind_fragment"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_bind_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_bind_view"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/bt_bind_activity2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/bt_bind_activity2"
+        android:textAllCaps="false" />
 
 </LinearLayout>

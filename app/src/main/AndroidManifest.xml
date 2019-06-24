@@ -10,13 +10,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".activity.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.BindActivity"
+            android:label="@string/bt_bind_activity" />
+        <activity
+            android:name=".activity.BindActivity2"
+            android:label="@string/bt_bind_activity2" />
+        <activity
+            android:name=".activity.BindFragmentActivity"
+            android:label="@string/bt_bind_fragment" />
+        <activity
+            android:name=".activity.BindViewActivity"
+            android:label="@string/bt_bind_view" />
     </application>
 
 </manifest>

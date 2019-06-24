@@ -6,12 +6,8 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_net_work"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="网络错误，点击重试"
-        android:textColor="@color/main_text"
-        android:textSize="13sp" />
+        android:text="@string/bt_bind_activity2" />
 
 </LinearLayout>
