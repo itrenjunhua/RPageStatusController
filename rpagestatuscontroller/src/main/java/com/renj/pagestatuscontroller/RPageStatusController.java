@@ -1,7 +1,6 @@
 package com.renj.pagestatuscontroller;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -112,6 +111,39 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         mRPageStatusHelp.bindView();
     }
 
+    /**
+     * 重置某一状态的事件监听，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
+     * 如果不需要修改，请调用 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} 方法修改<br/>
+     * <b>生效条件：还没有调用过 {@link IRPageStatusController#changePageStatus(int)} 方法设置该状态</b>
+     *
+     * @param pageStatus           需要重置监听事件的状态
+     * @param onRPageEventListener 监听事件对象
+     * @return
+     */
+    @Override
+    public RPageStatusController resetOnRPageEventListener(@RPageStatus int pageStatus, OnRPageEventListener onRPageEventListener) {
+        return resetOnRPageEventListener(pageStatus, true, onRPageEventListener);
+    }
+
+    /**
+     * 重置某一状态的事件监听。<b>生效条件：还没有调用过 {@link IRPageStatusController#changePageStatus(int)} 方法设置该状态</b>
+     *
+     * @param pageStatus           需要重置监听事件的状态
+     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
+     * @param onRPageEventListener 监听事件对象
+     * @return
+     */
+    @Override
+    public RPageStatusController resetOnRPageEventListener(int pageStatus, boolean showLoading, OnRPageEventListener onRPageEventListener) {
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
+            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
+            rPageStatusLayoutInfo.showLoading = showLoading;
+        }
+
+        return this;
+    }
+
     private void checkBindingStatus() {
         if (!RPageStatusUtils.isNull(mRPageStatusHelp))
             throw new IllegalStateException("Cannot repeat binding.");
@@ -146,7 +178,8 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 增加状态页面布局
+     * 增加状态页面布局，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
+     * 如果不需要修改，请调用 {@link #addPageStatusView(int, int, int, boolean, OnRPageEventListener)} 方法修改
      *
      * @param pageStatus           页面状态 {@link RPageStatus}
      * @param layoutId             布局资源id
@@ -155,15 +188,32 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId, @Nullable OnRPageEventListener onRPageEventListener) {
+        return addPageStatusView(pageStatus, layoutId, viewId, true, onRPageEventListener);
+    }
+
+
+    /**
+     * 增加状态页面布局
+     *
+     * @param pageStatus           页面状态 {@link RPageStatus}
+     * @param layoutId             布局资源id
+     * @param viewId               布局文件中有点击事件的View的id
+     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
+     * @param onRPageEventListener 点击事件回调监听
+     * @return
+     */
+    @Override
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
         return this;
     }
 
     /**
-     * 增加状态页面布局
+     * 增加状态页面布局，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
+     * 如果不需要修改，请调用 {@link #addPageStatusView(int, int, int[], boolean, OnRPageEventListener)} 方法修改
      *
      * @param pageStatus           页面状态 {@link RPageStatus}
      * @param layoutId             布局资源id
@@ -172,9 +222,25 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener) {
+        return addPageStatusView(pageStatus, layoutId, viewIds, true, onRPageEventListener);
+    }
+
+
+    /**
+     * 增加状态页面布局
+     *
+     * @param pageStatus           页面状态 {@link RPageStatus}
+     * @param layoutId             布局资源id
+     * @param viewIds              布局文件中有点击事件的View的id集合
+     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
+     * @param onRPageEventListener 点击事件回调监听
+     * @return
+     */
+    @Override
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
         return this;
     }

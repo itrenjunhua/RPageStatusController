@@ -114,11 +114,13 @@ public class RPageStatusLayout extends FrameLayout {
                 if (rPageStatusLayoutInfo.rPageStatusEvent != RPageStatusEvent.NO_CLICK) {
                     if (rPageStatusLayoutInfo.rPageStatusEvent == RPageStatusEvent.SINGLE_VIEW_CLICK) {
                         // 一个控件有事件
-                        setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, statusView, rPageStatusLayoutInfo.viewId);
+                        setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, rPageStatusLayoutInfoSparseArray,
+                                statusView, rPageStatusLayoutInfo.viewId, rPageStatusLayoutInfo.showLoading);
                     } else if (rPageStatusLayoutInfo.rPageStatusEvent == RPageStatusEvent.MORE_VIEW_CLICK) {
                         // 多个控件有事件
                         for (int viewId : rPageStatusLayoutInfo.viewIds) {
-                            setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, statusView, viewId);
+                            setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, rPageStatusLayoutInfoSparseArray,
+                                    statusView, viewId, rPageStatusLayoutInfo.showLoading);
                         }
                     }
                 }
@@ -128,15 +130,18 @@ public class RPageStatusLayout extends FrameLayout {
         changeShowPage(pageStatus);
     }
 
-    private void setStatusPageClickEvent(final OnRPageEventListener onRPageEventListener, View statusView, final int viewId) {
+    private void setStatusPageClickEvent(final OnRPageEventListener onRPageEventListener,
+                                         final @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray,
+                                         View statusView, final int viewId, final boolean showLoading) {
         final View clickView = statusView.findViewById(viewId);
         if (!RPageStatusUtils.isNull(clickView)) {
             clickView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (onRPageEventListener != null) {
+                    if (showLoading)
+                        changePageStatus(RPageStatus.LOADING, rPageStatusLayoutInfoSparseArray);
+                    if (onRPageEventListener != null)
                         onRPageEventListener.onViewClick(mRPageStatusBindInfo.object, clickView, viewId);
-                    }
                 }
             });
         }

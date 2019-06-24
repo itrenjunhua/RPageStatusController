@@ -33,7 +33,8 @@ public class RPageStatusLayoutInfo {
     @IdRes
     public int viewId;
     public int[] viewIds;
-    OnRPageEventListener onRPageEventListener;
+    public boolean showLoading;
+    public OnRPageEventListener onRPageEventListener;
 
     public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent) {
         this.pageStatus = pageStatus;
@@ -41,19 +42,21 @@ public class RPageStatusLayoutInfo {
         this.rPageStatusEvent = rPageStatusEvent;
     }
 
-    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId, boolean showLoading, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
         this.viewId = viewId;
+        this.showLoading = showLoading;
         this.onRPageEventListener = onRPageEventListener;
     }
 
-    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds, boolean showLoading, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
         this.viewIds = viewIds;
+        this.showLoading = showLoading;
         this.onRPageEventListener = onRPageEventListener;
     }
 }

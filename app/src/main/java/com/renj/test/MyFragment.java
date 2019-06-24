@@ -1,6 +1,7 @@
 package com.renj.test;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -44,28 +45,21 @@ public class MyFragment extends Fragment {
         View view = inflater.inflate(R.layout.my_fragment, null);
 
         rPageStatusController = RPageStatusController.get();
-        rPageStatusController.addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error, R.id.tv_error, new OnRPageEventListener() {
+        rPageStatusController.resetOnRPageEventListener(RPageStatus.ERROR, new OnRPageEventListener() {
             @Override
             public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
                 Toast.makeText(MyFragment.this.getContext(), "... tv_error", Toast.LENGTH_SHORT).show();
 
-                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        rPageStatusController.changePageStatus(RPageStatus.CONTENT);
+                    }
+                }, 3000);
             }
         });
         View bind = rPageStatusController.bind(this, view);
         rPageStatusController.changePageStatus(RPageStatus.ERROR);
         return bind;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
-//            }
-//        }, 3000);
     }
 }
