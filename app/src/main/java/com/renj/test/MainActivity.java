@@ -1,36 +1,23 @@
 package com.renj.test;
 
-import android.os.Handler;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-
-import com.renj.pagestatuscontroller.RPageStatusController;
-import com.renj.pagestatuscontroller.annotation.RPageStatus;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.FrameLayout;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RPageStatusController rPageStatusController;
-    private View textView;
+    private FrameLayout flContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rPageStatusController = RPageStatusController.get();
+        flContent = findViewById(R.id.fl_content);
 
-        textView = findViewById(R.id.text_view);
+        FragmentManager supportFragmentManager = getSupportFragmentManager();
+        supportFragmentManager.beginTransaction().add(R.id.fl_content, MyFragment.newInstance()).commit();
 
-        rPageStatusController.bind(textView);
-
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
-            }
-        }, 3000);
     }
 }

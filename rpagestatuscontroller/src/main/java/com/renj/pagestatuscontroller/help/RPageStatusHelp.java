@@ -2,8 +2,10 @@ package com.renj.pagestatuscontroller.help;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 
@@ -26,8 +28,8 @@ public class RPageStatusHelp {
     private RPageStatusBindInfo mRPageStatusBindInfo;
     private RPageStatusLayout mRPageStatusLayout;
 
-    public RPageStatusHelp(@NonNull Context context, @NonNull Object object, @NonNull View targetView) {
-        mRPageStatusBindInfo = new RPageStatusBindInfo(object, targetView);
+    public RPageStatusHelp(@NonNull Context context, @NonNull Object object, @Nullable ViewGroup parentView, @NonNull View targetView) {
+        mRPageStatusBindInfo = new RPageStatusBindInfo(object, parentView, targetView);
         mRPageStatusLayout = new RPageStatusLayout(context);
     }
 

@@ -53,10 +53,15 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     public void bind(@NonNull Activity activity) {
         checkBindingStatus();
         RPageStatusUtils.checkParams(activity);
-        View contentView = activity.findViewById(android.R.id.content);
+        ViewGroup contentView = activity.findViewById(android.R.id.content);
         if (RPageStatusUtils.isNull(contentView))
             throw new IllegalStateException("bind activity failed: cannot find contentView.");
-        mRPageStatusHelp = new RPageStatusHelp(activity, activity, contentView);
+        View targetView = null;
+        if (contentView.getChildCount() > 0)
+            targetView = contentView.getChildAt(0);
+        if (RPageStatusUtils.isNull(targetView))
+            throw new IllegalStateException("bind activity failed: bind() method should be after the setContentView() method.");
+        mRPageStatusHelp = new RPageStatusHelp(activity, activity, contentView, targetView);
         mRPageStatusHelp.bindActivity();
     }
 
@@ -71,7 +76,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     public View bind(@NonNull Fragment fragment, @NonNull View view) {
         checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, null, view);
         return mRPageStatusHelp.bindFragmentSupport();
     }
 
@@ -86,7 +91,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
         checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, null, view);
         return mRPageStatusHelp.bindFragment();
     }
 
@@ -103,7 +108,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (RPageStatusUtils.isNull(parentView))
             throw new IllegalStateException("bind view failed: cannot find parent view.");
-        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), parentView, view);
+        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), view, parentView, view);
         mRPageStatusHelp.bindView();
     }
 

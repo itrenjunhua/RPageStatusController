@@ -6,7 +6,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 
@@ -50,41 +49,49 @@ public class RPageStatusLayout extends FrameLayout {
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
         contentView = rPageStatusBindInfo.targetView;
+        ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
+        rPageStatusBindInfo.parentView.removeView(contentView);
+        this.addView(contentView);
+        rPageStatusBindInfo.parentView.addView(this, contentViewLayoutParams);
     }
 
     public View bindFragment(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
         contentView = rPageStatusBindInfo.targetView;
+        ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
+        this.addView(contentView);
+        if (!RPageStatusUtils.isNull(contentViewLayoutParams))
+            this.setLayoutParams(contentViewLayoutParams);
         return this;
     }
 
 
     public View bindFragmentSupport(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
         contentView = rPageStatusBindInfo.targetView;
+        ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
+        this.addView(contentView);
+        if (!RPageStatusUtils.isNull(contentViewLayoutParams))
+            this.setLayoutParams(contentViewLayoutParams);
         return this;
     }
 
     public void bindView(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
         contentView = rPageStatusBindInfo.targetView;
         // 找到目标控件在父控件中的位置
-        ViewParent targetParent = contentView.getParent();
-        if (targetParent != null && (targetParent instanceof ViewGroup)) {
-            int targetIndexInParentView = -1;
-            ViewGroup targetParentView = (ViewGroup) targetParent;
-            int childCount = targetParentView.getChildCount();
-            for (int i = 0; i < childCount; i++) {
-                if (targetParentView.getChildAt(i) == contentView) {
-                    targetIndexInParentView = i;
-                    break;
-                }
+        int targetIndexInParentView = -1;
+        int childCount = rPageStatusBindInfo.parentView.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            if (rPageStatusBindInfo.parentView.getChildAt(i) == contentView) {
+                targetIndexInParentView = i;
+                break;
             }
+        }
 
-            if (targetIndexInParentView != -1) {
-                ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-                // 先将 contentView 从原来的位置移除，然后添加到当前控件中，再用当前控件替换 contentView
-                targetParentView.removeViewAt(targetIndexInParentView);
-                this.addView(contentView);
-                targetParentView.addView(this, targetIndexInParentView, layoutParams);
-            }
+        if (targetIndexInParentView != -1) {
+            ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
+            // 先将 contentView 从原来的位置移除，然后添加到当前控件中，再用当前控件替换 contentView
+            rPageStatusBindInfo.parentView.removeViewAt(targetIndexInParentView);
+            this.addView(contentView);
+            rPageStatusBindInfo.parentView.addView(this, targetIndexInParentView, contentViewLayoutParams);
         }
     }
 
