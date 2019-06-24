@@ -60,7 +60,9 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
     /**
      * 重置某一状态的事件监听，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
      * 如果不需要修改，请调用 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} 修改<br/>
-     * <b>生效条件：还没有调用过 {@link IRPageStatusController#changePageStatus(int)} 方法设置该状态</b>
+     * <b>生效条件：<br/>
+     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
+     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
      *
      * @param pageStatus           需要重置监听事件的状态
      * @param onRPageEventListener 监听事件对象
@@ -69,7 +71,10 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
     T resetOnRPageEventListener(@RPageStatus int pageStatus, OnRPageEventListener onRPageEventListener);
 
     /**
-     * 重置某一状态的事件监听。<b>生效条件：还没有调用过 {@link IRPageStatusController#changePageStatus(int)} 方法设置该状态</b>
+     * 重置某一状态的事件监听。<br/>
+     * <b>生效条件：<br/>
+     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
+     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
      *
      * @param pageStatus           需要重置监听事件的状态
      * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
