@@ -96,7 +96,11 @@ public class RPageStatusLayout extends FrameLayout {
             ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
             // 先将 contentView 从原来的位置移除，然后添加到当前控件中，再用当前控件替换 contentView
             rPageStatusBindInfo.parentView.removeViewAt(targetIndexInParentView);
-            this.addView(contentView);
+            // 防止使用了weight属性导致高度变为0
+            LayoutParams layoutParams = new LayoutParams(contentViewLayoutParams);
+            layoutParams.width = LayoutParams.MATCH_PARENT;
+            layoutParams.height = LayoutParams.MATCH_PARENT;
+            this.addView(contentView, layoutParams);
             rPageStatusBindInfo.parentView.addView(this, targetIndexInParentView, contentViewLayoutParams);
         }
     }
