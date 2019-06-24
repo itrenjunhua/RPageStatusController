@@ -1,16 +1,17 @@
 package com.renj.test;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.renj.pagestatuscontroller.RPageStatusController;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
+import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
 
 /**
  * ======================================================================
@@ -43,8 +44,16 @@ public class MyFragment extends Fragment {
         View view = inflater.inflate(R.layout.my_fragment, null);
 
         rPageStatusController = RPageStatusController.get();
+        rPageStatusController.addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error, R.id.tv_error, new OnRPageEventListener() {
+            @Override
+            public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
+                Toast.makeText(MyFragment.this.getContext(), "... tv_error", Toast.LENGTH_SHORT).show();
+
+                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
+            }
+        });
         View bind = rPageStatusController.bind(this, view);
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
+        rPageStatusController.changePageStatus(RPageStatus.ERROR);
         return bind;
     }
 
@@ -52,11 +61,11 @@ public class MyFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
-            }
-        }, 3000);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                rPageStatusController.changePageStatus(RPageStatus.CONTENT);
+//            }
+//        }, 3000);
     }
 }

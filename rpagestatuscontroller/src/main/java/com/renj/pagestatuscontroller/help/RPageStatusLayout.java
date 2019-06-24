@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 
 import com.renj.pagestatuscontroller.R;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
+import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
+import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
@@ -30,8 +32,8 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 public class RPageStatusLayout extends FrameLayout {
     // 初始化的页面信息
     private SparseArray<ViewStub> mPageStatusViewArray = new SparseArray<>();
-    // 内容View
-    private View contentView;
+    // 绑定信息
+    private RPageStatusBindInfo mRPageStatusBindInfo;
 
     public RPageStatusLayout(@NonNull Context context) {
         super(context);
@@ -48,7 +50,8 @@ public class RPageStatusLayout extends FrameLayout {
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
-        contentView = rPageStatusBindInfo.targetView;
+        mRPageStatusBindInfo = rPageStatusBindInfo;
+        View contentView = rPageStatusBindInfo.targetView;
         ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
         rPageStatusBindInfo.parentView.removeView(contentView);
         this.addView(contentView);
@@ -56,7 +59,8 @@ public class RPageStatusLayout extends FrameLayout {
     }
 
     public View bindFragment(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
-        contentView = rPageStatusBindInfo.targetView;
+        mRPageStatusBindInfo = rPageStatusBindInfo;
+        View contentView = rPageStatusBindInfo.targetView;
         ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
         this.addView(contentView);
         if (!RPageStatusUtils.isNull(contentViewLayoutParams))
@@ -66,7 +70,8 @@ public class RPageStatusLayout extends FrameLayout {
 
 
     public View bindFragmentSupport(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
-        contentView = rPageStatusBindInfo.targetView;
+        mRPageStatusBindInfo = rPageStatusBindInfo;
+        View contentView = rPageStatusBindInfo.targetView;
         ViewGroup.LayoutParams contentViewLayoutParams = contentView.getLayoutParams();
         this.addView(contentView);
         if (!RPageStatusUtils.isNull(contentViewLayoutParams))
@@ -75,7 +80,8 @@ public class RPageStatusLayout extends FrameLayout {
     }
 
     public void bindView(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
-        contentView = rPageStatusBindInfo.targetView;
+        mRPageStatusBindInfo = rPageStatusBindInfo;
+        View contentView = rPageStatusBindInfo.targetView;
         // 找到目标控件在父控件中的位置
         int targetIndexInParentView = -1;
         int childCount = rPageStatusBindInfo.parentView.getChildCount();
@@ -96,17 +102,44 @@ public class RPageStatusLayout extends FrameLayout {
     }
 
     public void changePageStatus(@RPageStatus int pageStatus, @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray) {
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = rPageStatusLayoutInfoSparseArray.get(pageStatus, null);
+        final RPageStatusLayoutInfo rPageStatusLayoutInfo = rPageStatusLayoutInfoSparseArray.get(pageStatus, null);
         if (rPageStatusLayoutInfo != null) {
             ViewStub viewStub = mPageStatusViewArray.get(pageStatus);
             // 判断 ViewStub 是否已经 inflate() 过
             if (!RPageStatusUtils.isNull(viewStub.getParent())) {
                 viewStub.setLayoutResource(rPageStatusLayoutInfo.layoutId);
-                viewStub.inflate();
+                View statusView = viewStub.inflate();
+
+                // 如果有事件，增加监听事件
+                if (rPageStatusLayoutInfo.rPageStatusEvent != RPageStatusEvent.NO_CLICK) {
+                    if (rPageStatusLayoutInfo.rPageStatusEvent == RPageStatusEvent.SINGLE_VIEW_CLICK) {
+                        // 一个控件有事件
+                        setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, statusView, rPageStatusLayoutInfo.viewId);
+                    } else if (rPageStatusLayoutInfo.rPageStatusEvent == RPageStatusEvent.MORE_VIEW_CLICK) {
+                        // 多个控件有事件
+                        for (int viewId : rPageStatusLayoutInfo.viewIds) {
+                            setStatusPageClickEvent(rPageStatusLayoutInfo.onRPageEventListener, statusView, viewId);
+                        }
+                    }
+                }
             }
         }
 
         changeShowPage(pageStatus);
+    }
+
+    private void setStatusPageClickEvent(final OnRPageEventListener onRPageEventListener, View statusView, final int viewId) {
+        final View clickView = statusView.findViewById(viewId);
+        if (!RPageStatusUtils.isNull(clickView)) {
+            clickView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onRPageEventListener != null) {
+                        onRPageEventListener.onViewClick(mRPageStatusBindInfo.object, clickView, viewId);
+                    }
+                }
+            });
+        }
     }
 
     private void changeShowPage(@RPageStatus int pageStatus) {
@@ -127,9 +160,9 @@ public class RPageStatusLayout extends FrameLayout {
             emptyViewStub.setVisibility(GONE);
 
         if (pageStatus == RPageStatus.CONTENT)
-            contentView.setVisibility(VISIBLE);
+            mRPageStatusBindInfo.targetView.setVisibility(VISIBLE);
         else
-            contentView.setVisibility(GONE);
+            mRPageStatusBindInfo.targetView.setVisibility(GONE);
 
         if (pageStatus == RPageStatus.NET_WORK)
             netWorkViewStub.setVisibility(VISIBLE);
