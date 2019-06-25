@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.FrameLayout;
 
+import com.renj.pagestatuscontroller.IRPageStatusController;
 import com.renj.pagestatuscontroller.R;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
@@ -34,9 +35,11 @@ public class RPageStatusLayout extends FrameLayout {
     private SparseArray<ViewStub> mPageStatusViewArray = new SparseArray<>();
     // 绑定信息
     private RPageStatusBindInfo mRPageStatusBindInfo;
+    private IRPageStatusController mRPageStatusController;
 
-    public RPageStatusLayout(@NonNull Context context) {
+    public RPageStatusLayout(@NonNull Context context, @NonNull IRPageStatusController irPageStatusController) {
         super(context);
+        this.mRPageStatusController = irPageStatusController;
         initView(context);
     }
 
@@ -145,7 +148,7 @@ public class RPageStatusLayout extends FrameLayout {
                     if (showLoading)
                         changePageStatus(RPageStatus.LOADING, rPageStatusLayoutInfoSparseArray);
                     if (onRPageEventListener != null)
-                        onRPageEventListener.onViewClick(mRPageStatusBindInfo.object, clickView, viewId);
+                        onRPageEventListener.onViewClick(mRPageStatusController,mRPageStatusBindInfo.object, clickView, viewId);
                 }
             });
         }

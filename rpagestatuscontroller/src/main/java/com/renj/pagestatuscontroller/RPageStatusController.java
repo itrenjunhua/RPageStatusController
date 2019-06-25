@@ -60,7 +60,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
             targetView = contentView.getChildAt(0);
         if (RPageStatusUtils.isNull(targetView))
             throw new IllegalStateException("bind activity failed: bind() method should be after the setContentView() method.");
-        mRPageStatusHelp = new RPageStatusHelp(activity, activity, contentView, targetView);
+        mRPageStatusHelp = new RPageStatusHelp(activity, this, activity, contentView, targetView);
         mRPageStatusHelp.bindActivity();
     }
 
@@ -75,7 +75,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     public View bind(@NonNull Fragment fragment, @NonNull View view) {
         checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, null, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
         return mRPageStatusHelp.bindFragmentSupport();
     }
 
@@ -90,7 +90,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
         checkBindingStatus();
         RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), fragment, null, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
         return mRPageStatusHelp.bindFragment();
     }
 
@@ -107,7 +107,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (RPageStatusUtils.isNull(parentView))
             throw new IllegalStateException("bind view failed: cannot find parent view.");
-        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), view, parentView, view);
+        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), this, view, parentView, view);
         mRPageStatusHelp.bindView();
     }
 

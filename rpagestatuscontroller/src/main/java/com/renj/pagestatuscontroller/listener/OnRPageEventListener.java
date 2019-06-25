@@ -4,6 +4,8 @@ import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.view.View;
 
+import com.renj.pagestatuscontroller.IRPageStatusController;
+
 /**
  * ======================================================================
  * <p>
@@ -19,5 +21,5 @@ import android.view.View;
  * ======================================================================
  */
 public interface OnRPageEventListener {
-    void onViewClick(@NonNull Object object, @NonNull View view, @IdRes int viewId);
+    void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, @IdRes int viewId);
 }

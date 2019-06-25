@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.renj.pagestatuscontroller.IRPageStatusController;
 import com.renj.pagestatuscontroller.RPageStatusController;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
@@ -54,7 +55,7 @@ public class BindActivity2 extends AppCompatActivity {
                     }
                 })
                 // 使用独立的加载错误页面
-                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2}, new OnRPageEventListener() {
+                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2},false,new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
                         if (viewId == R.id.tv_error2)

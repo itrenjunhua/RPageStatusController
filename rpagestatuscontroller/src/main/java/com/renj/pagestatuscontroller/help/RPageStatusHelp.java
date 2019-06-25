@@ -7,6 +7,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.renj.pagestatuscontroller.IRPageStatusController;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 
 /**
@@ -28,9 +29,9 @@ public class RPageStatusHelp {
     private RPageStatusBindInfo mRPageStatusBindInfo;
     private RPageStatusLayout mRPageStatusLayout;
 
-    public RPageStatusHelp(@NonNull Context context, @NonNull Object object, @Nullable ViewGroup parentView, @NonNull View targetView) {
+    public RPageStatusHelp(@NonNull Context context, @NonNull IRPageStatusController irPageStatusController, @NonNull Object object, @Nullable ViewGroup parentView, @NonNull View targetView) {
         mRPageStatusBindInfo = new RPageStatusBindInfo(object, parentView, targetView);
-        mRPageStatusLayout = new RPageStatusLayout(context);
+        mRPageStatusLayout = new RPageStatusLayout(context,irPageStatusController);
     }
 
     public void bindActivity() {
