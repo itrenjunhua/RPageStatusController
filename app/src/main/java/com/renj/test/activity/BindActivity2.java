@@ -43,7 +43,7 @@ public class BindActivity2 extends AppCompatActivity {
         rPageStatusController
                 .resetOnRPageEventListener(RPageStatus.NET_WORK, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("网络错误");
 
                         Utils.postDelayed(new Runnable() {
@@ -57,11 +57,12 @@ public class BindActivity2 extends AppCompatActivity {
                 // 使用独立的加载错误页面
                 .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2},false,new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
                         if (viewId == R.id.tv_error2)
-                            rPageStatusController.changePageStatus(RPageStatus.CONTENT);
+                            iRPageStatusController.changePageStatus(RPageStatus.CONTENT);
 
                         if (viewId == R.id.tv_error) {
+                            iRPageStatusController.changePageStatus(RPageStatus.LOADING);
                             Utils.showToast("独立配置加载错误监听: " + object);
                             Utils.postDelayed(new Runnable() {
                                 @Override

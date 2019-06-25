@@ -44,7 +44,7 @@ public class BindActivity extends AppCompatActivity {
         rPageStatusController
                 .resetOnRPageEventListener(RPageStatus.ERROR, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("重置全局错误页面事件");
 
                         Utils.postDelayed(new Runnable() {

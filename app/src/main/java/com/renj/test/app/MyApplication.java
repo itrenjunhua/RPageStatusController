@@ -41,7 +41,7 @@ public class MyApplication extends Application {
                 .addPageStatusView(RPageStatus.NET_WORK, R.layout.status_view_network, R.id.tv_net_work, null)
                 .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error, R.id.tv_error, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("全局配置加载错误监听: " + object);
                         Log.i("MyApplication", "全局配置加载错误监听：" + "object = [" + object + "], view = [" + view + "], viewId = [" + viewId + "]");
                     }
