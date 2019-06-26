@@ -35,7 +35,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     private RPageStatusHelp mRPageStatusHelp;
 
     private RPageStatusController() {
-        RPageStatusUtils.copyRPageStatusLayoutInfo(RPageStatusManager.mRPageStatusLayoutArray, mRPageStatusLayoutArray);
+        RPageStatusUtils.deepCopyRPageStatusLayoutInfo(RPageStatusManager.mRPageStatusLayoutArray, mRPageStatusLayoutArray);
     }
 
     public static RPageStatusController get() {

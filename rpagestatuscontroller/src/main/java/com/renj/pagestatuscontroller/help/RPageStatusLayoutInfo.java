@@ -36,6 +36,18 @@ public class RPageStatusLayoutInfo {
     public boolean showLoading;
     public OnRPageEventListener onRPageEventListener;
 
+    public RPageStatusLayoutInfo(RPageStatusLayoutInfo rPageStatusLayoutInfo) {
+        if (null != rPageStatusLayoutInfo) {
+            this.pageStatus = rPageStatusLayoutInfo.pageStatus;
+            this.layoutId = rPageStatusLayoutInfo.layoutId;
+            this.rPageStatusEvent = rPageStatusLayoutInfo.rPageStatusEvent;
+            this.viewId = rPageStatusLayoutInfo.viewId;
+            this.viewIds = rPageStatusLayoutInfo.viewIds;
+            this.showLoading = rPageStatusLayoutInfo.showLoading;
+            this.onRPageEventListener = rPageStatusLayoutInfo.onRPageEventListener;
+        }
+    }
+
     public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
