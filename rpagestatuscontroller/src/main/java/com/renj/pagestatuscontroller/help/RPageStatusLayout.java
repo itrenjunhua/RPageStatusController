@@ -36,6 +36,8 @@ public class RPageStatusLayout extends FrameLayout {
     // 绑定信息
     private RPageStatusBindInfo mRPageStatusBindInfo;
     private IRPageStatusController mRPageStatusController;
+    @RPageStatus
+    private int currentPageStatus;
 
     public RPageStatusLayout(@NonNull Context context, @NonNull IRPageStatusController irPageStatusController) {
         super(context);
@@ -148,13 +150,16 @@ public class RPageStatusLayout extends FrameLayout {
                     if (showLoading)
                         changePageStatus(RPageStatus.LOADING, rPageStatusLayoutInfoSparseArray);
                     if (onRPageEventListener != null)
-                        onRPageEventListener.onViewClick(mRPageStatusController,mRPageStatusBindInfo.object, clickView, viewId);
+                        onRPageEventListener.onViewClick(mRPageStatusController, mRPageStatusBindInfo.object, clickView, viewId);
                 }
             });
         }
     }
 
     private void changeShowPage(@RPageStatus int pageStatus) {
+        if (currentPageStatus == pageStatus) return;
+        currentPageStatus = pageStatus;
+
         ViewStub loadingViewStub = mPageStatusViewArray.get(RPageStatus.LOADING);
         ViewStub emptyViewStub = mPageStatusViewArray.get(RPageStatus.EMPTY);
         ViewStub netWorkViewStub = mPageStatusViewArray.get(RPageStatus.NET_WORK);
