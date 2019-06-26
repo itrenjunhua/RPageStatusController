@@ -43,8 +43,8 @@ public class BindActivity2 extends AppCompatActivity {
         rPageStatusController
                 .resetOnRPageEventListener(RPageStatus.NET_WORK, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
-                        Utils.showToast("网络错误");
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
+                        Utils.showToast("网络错误 - " + pageStatus);
 
                         Utils.postDelayed(new Runnable() {
                             @Override
@@ -55,9 +55,9 @@ public class BindActivity2 extends AppCompatActivity {
                     }
                 })
                 // 使用独立的加载错误页面
-                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2},false,new OnRPageEventListener() {
+                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2}, false, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         if (viewId == R.id.tv_error2)
                             iRPageStatusController.changePageStatus(RPageStatus.CONTENT);
 

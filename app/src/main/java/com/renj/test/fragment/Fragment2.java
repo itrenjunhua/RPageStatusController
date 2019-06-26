@@ -46,7 +46,7 @@ public class Fragment2 extends Fragment {
         rPageStatusController = RPageStatusController.get();
         rPageStatusController.resetOnRPageEventListener(RPageStatus.ERROR, new OnRPageEventListener() {
             @Override
-            public void onViewClick(final @NonNull IRPageStatusController iRPageStatusController, @NonNull Object object, @NonNull View view, int viewId) {
+            public void onViewClick(final @NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                 Utils.showToast("重置全局错误页面点击事件");
                 Utils.postDelayed(new Runnable() {
                     @Override
