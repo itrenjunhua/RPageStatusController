@@ -168,6 +168,16 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
+     * 获取当前的页面状态
+     *
+     * @return
+     */
+    @Override
+    public int getCurrentPageStatus() {
+        return mRPageStatusHelp.getCurrentPageStatus();
+    }
+
+    /**
      * 增加状态页面布局
      *
      * @param pageStatus 页面状态 {@link RPageStatus}

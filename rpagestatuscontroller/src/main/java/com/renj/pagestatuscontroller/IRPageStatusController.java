@@ -89,4 +89,11 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param pageStatus 状态值
      */
     void changePageStatus(@RPageStatus int pageStatus);
+
+    /**
+     * 获取当前的页面状态
+     *
+     * @return
+     */
+    int getCurrentPageStatus();
 }

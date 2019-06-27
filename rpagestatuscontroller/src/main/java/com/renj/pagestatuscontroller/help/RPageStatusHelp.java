@@ -53,4 +53,8 @@ public class RPageStatusHelp {
     public void changePageStatus(@RPageStatus int pageStatus, @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray) {
         mRPageStatusLayout.changePageStatus(pageStatus, rPageStatusLayoutInfoSparseArray);
     }
+
+    public int getCurrentPageStatus() {
+        return mRPageStatusLayout.getCurrentPageStatus();
+    }
 }

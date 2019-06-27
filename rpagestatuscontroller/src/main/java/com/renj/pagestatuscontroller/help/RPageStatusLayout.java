@@ -195,4 +195,8 @@ public class RPageStatusLayout extends FrameLayout {
         else
             notFoundViewStub.setVisibility(GONE);
     }
+
+    public int getCurrentPageStatus() {
+        return currentPageStatus;
+    }
 }
