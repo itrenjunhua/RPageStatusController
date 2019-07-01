@@ -32,25 +32,25 @@ public @interface RPageStatus {
     /**
      * 加载中状态
      */
-    int LOADING = 0;
+    int LOADING = 100;
     /**
      * 空状态
      */
-    int EMPTY = 1;
+    int EMPTY = 101;
     /**
      * 内容状态
      */
-    int CONTENT = 2;
+    int CONTENT = 102;
     /**
      * 网络错误状态
      */
-    int NET_WORK = 3;
+    int NET_WORK = 103;
     /**
      * 加载错误状态
      */
-    int ERROR = 4;
+    int ERROR = 104;
     /**
      * 没找到内容页面状态
      */
-    int NOT_FOUND = 5;
+    int NOT_FOUND = 105;
 }
