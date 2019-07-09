@@ -112,8 +112,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 重置某一状态的事件监听，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
-     * 如果不需要修改，请调用 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} 方法修改<br/>
+     * 重置某一状态的事件监听 另看 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} <br/>
      * <b>生效条件：<br/>
      * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
      * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
@@ -124,7 +123,12 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController resetOnRPageEventListener(@RPageStatus int pageStatus, OnRPageEventListener onRPageEventListener) {
-        return resetOnRPageEventListener(pageStatus, true, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
+            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
+        }
+
+        return this;
     }
 
     /**
