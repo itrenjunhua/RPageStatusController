@@ -19,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
  * <p>
  * ======================================================================
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @IntDef({
         RPageStatusEvent.NO_CLICK,
         RPageStatusEvent.SINGLE_VIEW_CLICK,

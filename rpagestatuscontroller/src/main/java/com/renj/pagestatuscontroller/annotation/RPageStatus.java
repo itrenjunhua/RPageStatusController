@@ -19,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
  * <p>
  * ======================================================================
  */
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @IntDef({
         RPageStatus.LOADING,
         RPageStatus.EMPTY,
