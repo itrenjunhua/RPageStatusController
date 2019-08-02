@@ -168,8 +168,10 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         if (RPageStatusUtils.isNull(mRPageStatusHelp))
             throw new IllegalStateException("RPageStatusController Exception: nothing bind.please call bind() method.");
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus, null);
-        if (RPageStatusUtils.isNull(rPageStatusLayoutInfo) || rPageStatusLayoutInfo.layoutId == 0)
-            throw new IllegalStateException("RPageStatusController Exception: No layout resources are set for the \"" + pageStatus + "\" state.");
+        if (RPageStatus.CONTENT != pageStatus) {
+            if (RPageStatusUtils.isNull(rPageStatusLayoutInfo) || rPageStatusLayoutInfo.layoutId == 0)
+                throw new IllegalStateException("RPageStatusController Exception: No layout resources are set for the \"" + pageStatus + "\" state.");
+        }
 
         mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
     }
