@@ -54,12 +54,12 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         RPageStatusUtils.checkParams(activity);
         ViewGroup contentView = activity.findViewById(android.R.id.content);
         if (RPageStatusUtils.isNull(contentView))
-            throw new IllegalStateException("bind activity failed: cannot find contentView.");
+            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: cannot find contentView.");
         View targetView = null;
         if (contentView.getChildCount() > 0)
             targetView = contentView.getChildAt(0);
         if (RPageStatusUtils.isNull(targetView))
-            throw new IllegalStateException("bind activity failed: bind() method should be after the setContentView() method.");
+            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: bind() method should be after the setContentView() method.");
         mRPageStatusHelp = new RPageStatusHelp(activity, this, activity, contentView, targetView);
         mRPageStatusHelp.bindActivity();
     }
@@ -106,7 +106,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         RPageStatusUtils.checkParams(view);
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (RPageStatusUtils.isNull(parentView))
-            throw new IllegalStateException("bind view failed: cannot find parent view.");
+            throw new IllegalStateException("RPageStatusController Exception: bind view failed: cannot find parent view.");
         mRPageStatusHelp = new RPageStatusHelp(view.getContext(), this, view, parentView, view);
         mRPageStatusHelp.bindView();
     }
@@ -155,7 +155,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
 
     private void checkBindingStatus() {
         if (!RPageStatusUtils.isNull(mRPageStatusHelp))
-            throw new IllegalStateException("Cannot repeat binding.");
+            throw new IllegalStateException("RPageStatusController Exception: Cannot repeat binding.");
     }
 
     /**
@@ -166,7 +166,10 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     @Override
     public void changePageStatus(@RPageStatus int pageStatus) {
         if (RPageStatusUtils.isNull(mRPageStatusHelp))
-            throw new IllegalStateException("nothing bind.please call bind() method.");
+            throw new IllegalStateException("RPageStatusController Exception: nothing bind.please call bind() method.");
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus, null);
+        if (RPageStatusUtils.isNull(rPageStatusLayoutInfo) || rPageStatusLayoutInfo.layoutId == 0)
+            throw new IllegalStateException("RPageStatusController Exception: No layout resources are set for the \"" + pageStatus + "\" state.");
 
         mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
     }
