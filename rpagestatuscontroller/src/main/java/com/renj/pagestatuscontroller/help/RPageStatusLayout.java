@@ -24,7 +24,7 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  * <p>
  * 创建时间：2019-06-20   14:50
  * <p>
- * 描述：
+ * 描述：页面状态布局控制控件
  * <p>
  * 修订历史：
  * <p>

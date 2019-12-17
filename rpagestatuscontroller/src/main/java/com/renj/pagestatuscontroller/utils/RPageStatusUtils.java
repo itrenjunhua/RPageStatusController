@@ -14,7 +14,7 @@ import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
  * <p>
  * 创建时间：2019-06-20   14:46
  * <p>
- * 描述：
+ * 描述：工具类
  * <p>
  * 修订历史：
  * <p>
@@ -53,6 +53,12 @@ public class RPageStatusUtils {
         }
     }
 
+    /**
+     * 克隆，只是添加引用 {@link #deepCopyRPageStatusLayoutInfo(SparseArray, SparseArray)}
+     *
+     * @param src    源
+     * @param target 目标
+     */
     public static void copyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src, @NonNull SparseArray<RPageStatusLayoutInfo> target) {
         if (src.size() > 0) {
             target.put(RPageStatus.LOADING, src.get(RPageStatus.LOADING, null));
@@ -63,6 +69,12 @@ public class RPageStatusUtils {
         }
     }
 
+    /**
+     * 深度克隆
+     *
+     * @param src    源
+     * @param target 目标
+     */
     public static void deepCopyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src, @NonNull SparseArray<RPageStatusLayoutInfo> target) {
         if (src.size() > 0) {
             RPageStatusLayoutInfo loading = src.get(RPageStatus.LOADING, null);

@@ -1,7 +1,6 @@
 package com.renj.pagestatuscontroller.help;
 
 import android.support.annotation.IdRes;
-import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
@@ -24,7 +23,6 @@ import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
  */
 public class RPageStatusLayoutInfo {
     @RPageStatus
-    @IntRange(from = 0, to = 5)
     public int pageStatus;
     @LayoutRes
     public int layoutId;
