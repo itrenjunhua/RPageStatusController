@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
 
 /**
  * ======================================================================
@@ -89,6 +90,16 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @param pageStatus 状态值
      */
     void changePageStatus(@RPageStatus int pageStatus);
+
+    /**
+     * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容）<br/>
+     * <b>注意：调用该方法之前需要已经调用 addPageStatusView() 系列添加了状态布局，否则不会生效。</b>
+     *
+     * @param pageStatus          页面状态
+     * @param onRPageViewListener 回调
+     * @return
+     */
+    T registerOnRPageViewListener(@RPageStatus int pageStatus, OnRPageViewListener onRPageViewListener);
 
     /**
      * 获取当前的页面状态

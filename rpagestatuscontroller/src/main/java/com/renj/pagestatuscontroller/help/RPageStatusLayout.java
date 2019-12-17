@@ -118,6 +118,11 @@ public class RPageStatusLayout extends FrameLayout {
                 viewStub.setLayoutResource(rPageStatusLayoutInfo.layoutId);
                 View statusView = viewStub.inflate();
 
+                // 如果注册了状态页面控件信息回调
+                if (rPageStatusLayoutInfo.onRPageViewListener != null) {
+                    rPageStatusLayoutInfo.onRPageViewListener.onPageView(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
+                }
+
                 // 如果有事件，增加监听事件
                 if (rPageStatusLayoutInfo.rPageStatusEvent != RPageStatusEvent.NO_CLICK) {
                     if (rPageStatusLayoutInfo.rPageStatusEvent == RPageStatusEvent.SINGLE_VIEW_CLICK) {

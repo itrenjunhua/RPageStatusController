@@ -14,6 +14,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
@@ -122,7 +123,8 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController resetOnRPageEventListener(@RPageStatus int pageStatus, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController resetOnRPageEventListener(@RPageStatus int pageStatus,
+                                                           OnRPageEventListener onRPageEventListener) {
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
         if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
             rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
@@ -143,7 +145,8 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController resetOnRPageEventListener(int pageStatus, boolean showLoading, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController resetOnRPageEventListener(int pageStatus, boolean showLoading,
+                                                           OnRPageEventListener onRPageEventListener) {
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
         if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
             rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
@@ -213,7 +216,8 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId,
+                                                   @Nullable OnRPageEventListener onRPageEventListener) {
         return addPageStatusView(pageStatus, layoutId, viewId, true, onRPageEventListener);
     }
 
@@ -229,9 +233,12 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId,
+                                                   int viewId, boolean showLoading,
+                                                   @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus,
+                layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
         return this;
     }
@@ -247,7 +254,8 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds,
+                                                   @Nullable OnRPageEventListener onRPageEventListener) {
         return addPageStatusView(pageStatus, layoutId, viewIds, true, onRPageEventListener);
     }
 
@@ -263,10 +271,30 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusController addPageStatusView(int pageStatus, int layoutId,
+                                                   int[] viewIds, boolean showLoading,
+                                                   @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus,
+                layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
+        return this;
+    }
+
+    /**
+     * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容<br/>
+     * <b>注意：调用该方法之前需要已经调用 addPageStatusView() 系列添加了状态布局，否则不会生效。</b>
+     *
+     * @param pageStatus          页面状态
+     * @param onRPageViewListener 回调
+     * @return
+     */
+    @Override
+    public RPageStatusController registerOnRPageViewListener(int pageStatus, OnRPageViewListener onRPageViewListener) {
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageViewListener)) {
+            rPageStatusLayoutInfo.onRPageViewListener = onRPageViewListener;
+        }
         return this;
     }
 }

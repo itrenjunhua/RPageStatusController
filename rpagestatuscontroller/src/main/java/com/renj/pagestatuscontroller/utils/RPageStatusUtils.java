@@ -59,7 +59,8 @@ public class RPageStatusUtils {
      * @param src    源
      * @param target 目标
      */
-    public static void copyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src, @NonNull SparseArray<RPageStatusLayoutInfo> target) {
+    public static void copyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src,
+                                                 @NonNull SparseArray<RPageStatusLayoutInfo> target) {
         if (src.size() > 0) {
             target.put(RPageStatus.LOADING, src.get(RPageStatus.LOADING, null));
             target.put(RPageStatus.EMPTY, src.get(RPageStatus.EMPTY, null));
@@ -75,7 +76,8 @@ public class RPageStatusUtils {
      * @param src    源
      * @param target 目标
      */
-    public static void deepCopyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src, @NonNull SparseArray<RPageStatusLayoutInfo> target) {
+    public static void deepCopyRPageStatusLayoutInfo(@NonNull SparseArray<RPageStatusLayoutInfo> src,
+                                                     @NonNull SparseArray<RPageStatusLayoutInfo> target) {
         if (src.size() > 0) {
             RPageStatusLayoutInfo loading = src.get(RPageStatus.LOADING, null);
             if (!isNull(loading))

@@ -4,11 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.renj.pagestatuscontroller.IRPageStatusController;
 import com.renj.pagestatuscontroller.RPageStatusController;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
 import com.renj.test.R;
 import com.renj.test.utils.Utils;
 
@@ -71,6 +73,14 @@ public class BindActivity2 extends AppCompatActivity {
                                 }
                             }, 3000);
                         }
+                    }
+                })
+                // 注册状态页面布局监听
+                .registerOnRPageViewListener(RPageStatus.ERROR, new OnRPageViewListener() {
+                    @Override
+                    public void onPageView(@NonNull IRPageStatusController iRPageStatusController, int pageStatus, @NonNull Object object, View statusRootView) {
+                        TextView tvError2 = statusRootView.findViewById(R.id.tv_error2);
+                        tvError2.setText("点我吖！！！");
                     }
                 });
 

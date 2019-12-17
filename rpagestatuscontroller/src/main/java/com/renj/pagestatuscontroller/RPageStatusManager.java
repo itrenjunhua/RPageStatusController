@@ -62,7 +62,8 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
      * @return
      */
     @Override
-    public RPageStatusManager addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusManager addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int
+            layoutId, @IdRes int viewId, @Nullable OnRPageEventListener onRPageEventListener) {
         return addPageStatusView(pageStatus, layoutId, viewId, true, onRPageEventListener);
     }
 
@@ -77,9 +78,11 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
      * @return
      */
     @Override
-    public RPageStatusManager addPageStatusView(int pageStatus, int layoutId, int viewId, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusManager addPageStatusView(int pageStatus, int layoutId, int viewId,
+                                                boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId,
+                RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
         return INSTANCE;
     }
@@ -95,7 +98,8 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
      * @return
      */
     @Override
-    public RPageStatusManager addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusManager addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId,
+                                                @IdRes int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener) {
         return addPageStatusView(pageStatus, layoutId, viewIds, true, onRPageEventListener);
     }
 
@@ -110,9 +114,11 @@ public class RPageStatusManager implements IRPageStatusConfig<RPageStatusManager
      * @return
      */
     @Override
-    public RPageStatusManager addPageStatusView(int pageStatus, int layoutId, int[] viewIds, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
+    public RPageStatusManager addPageStatusView(int pageStatus, int layoutId, int[] viewIds,
+                                                boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId,
+                RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
         mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
         return INSTANCE;
     }

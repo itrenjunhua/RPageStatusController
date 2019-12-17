@@ -6,6 +6,7 @@ import android.support.annotation.LayoutRes;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
+import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
 
 /**
  * ======================================================================
@@ -33,6 +34,7 @@ public class RPageStatusLayoutInfo {
     public int[] viewIds;
     public boolean showLoading;
     public OnRPageEventListener onRPageEventListener;
+    public OnRPageViewListener onRPageViewListener;
 
     public RPageStatusLayoutInfo(RPageStatusLayoutInfo rPageStatusLayoutInfo) {
         if (null != rPageStatusLayoutInfo) {
@@ -43,16 +45,20 @@ public class RPageStatusLayoutInfo {
             this.viewIds = rPageStatusLayoutInfo.viewIds;
             this.showLoading = rPageStatusLayoutInfo.showLoading;
             this.onRPageEventListener = rPageStatusLayoutInfo.onRPageEventListener;
+            this.onRPageViewListener = rPageStatusLayoutInfo.onRPageViewListener;
         }
     }
 
-    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId,
+                                 @RPageStatusEvent int rPageStatusEvent) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
     }
 
-    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId, boolean showLoading, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId,
+                                 @RPageStatusEvent int rPageStatusEvent, @IdRes int viewId,
+                                 boolean showLoading, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;
@@ -61,7 +67,9 @@ public class RPageStatusLayoutInfo {
         this.onRPageEventListener = onRPageEventListener;
     }
 
-    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId, @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds, boolean showLoading, OnRPageEventListener onRPageEventListener) {
+    public RPageStatusLayoutInfo(@RPageStatus int pageStatus, @LayoutRes int layoutId,
+                                 @RPageStatusEvent int rPageStatusEvent, @IdRes int[] viewIds,
+                                 boolean showLoading, OnRPageEventListener onRPageEventListener) {
         this.pageStatus = pageStatus;
         this.layoutId = layoutId;
         this.rPageStatusEvent = rPageStatusEvent;

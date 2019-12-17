@@ -29,9 +29,10 @@ public class RPageStatusHelp {
     private RPageStatusBindInfo mRPageStatusBindInfo;
     private RPageStatusLayout mRPageStatusLayout;
 
-    public RPageStatusHelp(@NonNull Context context, @NonNull IRPageStatusController irPageStatusController, @NonNull Object object, @Nullable ViewGroup parentView, @NonNull View targetView) {
+    public RPageStatusHelp(@NonNull Context context, @NonNull IRPageStatusController irPageStatusController,
+                           @NonNull Object object, @Nullable ViewGroup parentView, @NonNull View targetView) {
         mRPageStatusBindInfo = new RPageStatusBindInfo(object, parentView, targetView);
-        mRPageStatusLayout = new RPageStatusLayout(context,irPageStatusController);
+        mRPageStatusLayout = new RPageStatusLayout(context, irPageStatusController);
     }
 
     public void bindActivity() {
@@ -50,7 +51,8 @@ public class RPageStatusHelp {
         mRPageStatusLayout.bindView(mRPageStatusBindInfo);
     }
 
-    public void changePageStatus(@RPageStatus int pageStatus, @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray) {
+    public void changePageStatus(@RPageStatus int pageStatus,
+                                 @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray) {
         mRPageStatusLayout.changePageStatus(pageStatus, rPageStatusLayoutInfoSparseArray);
     }
 

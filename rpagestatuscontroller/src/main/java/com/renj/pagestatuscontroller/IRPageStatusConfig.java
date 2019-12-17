@@ -41,7 +41,8 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, @Nullable OnRPageEventListener onRPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId,
+                        @Nullable OnRPageEventListener onRPageEventListener);
 
     /**
      * 增加状态页面布局
@@ -53,7 +54,9 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int viewId, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId,
+                        @IdRes int viewId, boolean showLoading,
+                        @Nullable OnRPageEventListener onRPageEventListener);
 
 
     /**
@@ -66,7 +69,8 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, @Nullable OnRPageEventListener onRPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds,
+                        @Nullable OnRPageEventListener onRPageEventListener);
 
     /**
      * 增加状态页面布局
@@ -78,5 +82,6 @@ public interface IRPageStatusConfig<T extends IRPageStatusConfig> {
      * @param onRPageEventListener 点击事件回调监听
      * @return
      */
-    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds, boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener);
+    T addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId, @IdRes int[] viewIds,
+                        boolean showLoading, @Nullable OnRPageEventListener onRPageEventListener);
 }
