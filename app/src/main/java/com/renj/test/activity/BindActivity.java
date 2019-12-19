@@ -37,9 +37,6 @@ public class BindActivity extends AppCompatActivity {
 
         rPageStatusController = RPageStatusController.get();
 
-        rPageStatusController.bind(this);
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
-
         rPageStatusController
                 // 重置事件
                 .registerOnRPageEventListener(RPageStatus.ERROR, R.id.tv_error, new OnRPageEventListener() {
@@ -62,5 +59,8 @@ public class BindActivity extends AppCompatActivity {
                 rPageStatusController.changePageStatus(RPageStatus.ERROR);
             }
         }, 3000);
+
+        rPageStatusController.bind(this);
+        rPageStatusController.changePageStatus(RPageStatus.LOADING);
     }
 }

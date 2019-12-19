@@ -66,7 +66,9 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
     void changePageStatus(@RPageStatus int pageStatus);
 
     /**
-     * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容）<br/>
+     * 注册状态页面的布局监听，可以在回调中获取到状态页面控件信息。
+     * 主要针对部分特殊页面和全局的状态页面只有细微差别，避免全部重置页面的麻烦，
+     * 可以在这个回调内做对应处理（比如对子控件做显示、隐藏或者修改内容操作）<br/>
      * <b>特别注意：<br/>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
      * 1. 调用该方法之前需要已经调用过 {@link #addPageStatusView(int, int)} 方法添加了该状态的状态布局，否则无效<br/>

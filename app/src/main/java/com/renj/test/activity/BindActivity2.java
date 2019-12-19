@@ -38,13 +38,11 @@ public class BindActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_bind2);
 
         rPageStatusController = RPageStatusController.get();
-
-        rPageStatusController.bind(this);
-
         // 重置事件
         rPageStatusController
                 // 使用独立的加载错误页面
                 .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2)
+                // 注册错误页面点击事件
                 .registerOnRPageEventListener(RPageStatus.ERROR, false, new int[]{R.id.tv_error, R.id.tv_error2}, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
@@ -85,6 +83,7 @@ public class BindActivity2 extends AppCompatActivity {
                     }
                 });
 
+        rPageStatusController.bind(this);
         rPageStatusController.changePageStatus(RPageStatus.LOADING);
 
         Utils.postDelayed(new Runnable() {

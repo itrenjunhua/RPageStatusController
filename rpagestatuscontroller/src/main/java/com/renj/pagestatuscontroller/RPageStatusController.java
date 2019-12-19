@@ -48,78 +48,6 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * {@inheritDoc}
      */
     @Override
-    public void bind(@NonNull Activity activity) {
-        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
-        RPageStatusUtils.checkParams(activity);
-        ViewGroup contentView = activity.findViewById(android.R.id.content);
-        if (RPageStatusUtils.isNull(contentView))
-            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: cannot find contentView.");
-        View targetView = null;
-        if (contentView.getChildCount() > 0)
-            targetView = contentView.getChildAt(0);
-        if (RPageStatusUtils.isNull(targetView))
-            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: bind() method should be after the setContentView() method.");
-        mRPageStatusHelp = new RPageStatusHelp(activity, this, activity, contentView, targetView);
-        mRPageStatusHelp.bindActivity();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public View bind(@NonNull Fragment fragment, @NonNull View view) {
-        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
-        RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
-        return mRPageStatusHelp.bindFragmentSupport();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
-        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
-        RPageStatusUtils.checkParams(fragment, view);
-        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
-        return mRPageStatusHelp.bindFragment();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void bind(@NonNull View view) {
-        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
-        RPageStatusUtils.checkParams(view);
-        ViewGroup parentView = (ViewGroup) view.getParent();
-        if (RPageStatusUtils.isNull(parentView))
-            throw new IllegalStateException("RPageStatusController Exception: bind view failed: cannot find parent view.");
-        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), this, view, parentView, view);
-        mRPageStatusHelp.bindView();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void changePageStatus(@RPageStatus int pageStatus) {
-        if (RPageStatusUtils.isNull(mRPageStatusHelp))
-            throw new IllegalStateException("RPageStatusController Exception: nothing bind.please call bind() method.");
-
-        if (RPageStatus.CONTENT != pageStatus) {
-            RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus, null);
-            if (RPageStatusUtils.isNull(rPageStatusLayoutInfo) || rPageStatusLayoutInfo.layoutId == 0)
-                throw new IllegalStateException("RPageStatusController Exception: No layout resources are set for the \"" + pageStatus + "\" state.");
-        }
-
-        mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int getCurrentPageStatus() {
         return mRPageStatusHelp.getCurrentPageStatus();
     }
@@ -194,10 +122,83 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      */
     @Override
     public RPageStatusController registerOnRPageViewListener(int pageStatus, OnRPageViewListener onRPageViewListener) {
+        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
         if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageViewListener)) {
             rPageStatusLayoutInfo.onRPageViewListener = onRPageViewListener;
         }
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind(@NonNull Activity activity) {
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
+        RPageStatusUtils.checkParams(activity);
+        ViewGroup contentView = activity.findViewById(android.R.id.content);
+        if (RPageStatusUtils.isNull(contentView))
+            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: cannot find contentView.");
+        View targetView = null;
+        if (contentView.getChildCount() > 0)
+            targetView = contentView.getChildAt(0);
+        if (RPageStatusUtils.isNull(targetView))
+            throw new IllegalStateException("RPageStatusController Exception: bind activity failed: bind() method should be after the setContentView() method.");
+        mRPageStatusHelp = new RPageStatusHelp(activity, this, activity, contentView, targetView);
+        mRPageStatusHelp.bindActivity();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View bind(@NonNull Fragment fragment, @NonNull View view) {
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
+        RPageStatusUtils.checkParams(fragment, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
+        return mRPageStatusHelp.bindFragmentSupport();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
+        RPageStatusUtils.checkParams(fragment, view);
+        mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
+        return mRPageStatusHelp.bindFragment();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void bind(@NonNull View view) {
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
+        RPageStatusUtils.checkParams(view);
+        ViewGroup parentView = (ViewGroup) view.getParent();
+        if (RPageStatusUtils.isNull(parentView))
+            throw new IllegalStateException("RPageStatusController Exception: bind view failed: cannot find parent view.");
+        mRPageStatusHelp = new RPageStatusHelp(view.getContext(), this, view, parentView, view);
+        mRPageStatusHelp.bindView();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void changePageStatus(@RPageStatus int pageStatus) {
+        if (RPageStatusUtils.isNull(mRPageStatusHelp))
+            throw new IllegalStateException("RPageStatusController Exception: nothing bind.please call bind() method.");
+
+        if (RPageStatus.CONTENT != pageStatus) {
+            RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus, null);
+            if (RPageStatusUtils.isNull(rPageStatusLayoutInfo) || rPageStatusLayoutInfo.layoutId == 0)
+                throw new IllegalStateException("RPageStatusController Exception: No layout resources are set for the \"" + pageStatus + "\" state.");
+        }
+
+        mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
     }
 }

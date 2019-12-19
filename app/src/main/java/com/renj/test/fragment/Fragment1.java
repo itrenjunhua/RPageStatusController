@@ -43,9 +43,6 @@ public class Fragment1 extends Fragment {
         View view = inflater.inflate(R.layout.fragment_1, null);
         rPageStatusController = RPageStatusController.get();
 
-        View fragmentView = rPageStatusController.bind(this, view);
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
-
         Utils.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -53,6 +50,8 @@ public class Fragment1 extends Fragment {
             }
         }, 3000);
 
+        View fragmentView = rPageStatusController.bind(this, view);
+        rPageStatusController.changePageStatus(RPageStatus.LOADING);
         // 这里一定要使用 bind() 方法返回的View
         return fragmentView;
     }
