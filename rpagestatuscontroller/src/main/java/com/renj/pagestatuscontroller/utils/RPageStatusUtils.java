@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
+import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 
 /**
@@ -45,6 +46,11 @@ public class RPageStatusUtils {
         if (isNull(objects)) {
             throw new IllegalArgumentException("The parameter cannot be null.");
         }
+    }
+
+    public static void checkBindingStatus(RPageStatusHelp rPageStatusHelp) {
+        if (!isNull(rPageStatusHelp))
+            throw new IllegalStateException("RPageStatusController Exception: Cannot repeat binding.");
     }
 
     public static void checkAddContentStatusPage(@RPageStatus int pageStatus) {

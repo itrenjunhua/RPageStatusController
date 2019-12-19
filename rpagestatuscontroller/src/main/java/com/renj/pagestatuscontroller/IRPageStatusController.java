@@ -59,32 +59,6 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
     void bind(@NonNull View view);
 
     /**
-     * 重置某一状态的事件监听，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
-     * 如果不需要修改，请调用 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} 修改<br/>
-     * <b>生效条件：<br/>
-     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
-     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
-     *
-     * @param pageStatus           需要重置监听事件的状态
-     * @param onRPageEventListener 监听事件对象
-     * @return
-     */
-    T resetOnRPageEventListener(@RPageStatus int pageStatus, OnRPageEventListener onRPageEventListener);
-
-    /**
-     * 重置某一状态的事件监听。<br/>
-     * <b>生效条件：<br/>
-     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
-     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
-     *
-     * @param pageStatus           需要重置监听事件的状态
-     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
-     * @param onRPageEventListener 监听事件对象
-     * @return
-     */
-    T resetOnRPageEventListener(@RPageStatus int pageStatus, boolean showLoading, OnRPageEventListener onRPageEventListener);
-
-    /**
      * 修改页面状态
      *
      * @param pageStatus 状态值
@@ -93,7 +67,15 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
 
     /**
      * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容）<br/>
-     * <b>注意：调用该方法之前需要已经调用 addPageStatusView() 系列添加了状态布局，否则不会生效。</b>
+     * <b>特别注意：<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     * 1. 调用该方法之前需要已经调用过 {@link #addPageStatusView(int, int)} 方法添加了该状态的状态布局，否则无效<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     * 2. 调用该方法之前还没有调用过 {@link IRPageStatusController#changePageStatus(int)} 方法设置过该状态，否则无效<br/>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+     * 3. 多次调用该方法，后一次调用会覆盖前一次调用，最终生效的是最后一次结果
+     * （离调用 {@link IRPageStatusController#changePageStatus(int)} 方法前面最近的一次）
+     * </b>
      *
      * @param pageStatus          页面状态
      * @param onRPageViewListener 回调
@@ -104,7 +86,7 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
     /**
      * 获取当前的页面状态
      *
-     * @return
+     * @return {@link RPageStatus}
      */
     int getCurrentPageStatus();
 }

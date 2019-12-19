@@ -40,9 +40,9 @@ public class BindActivity extends AppCompatActivity {
         rPageStatusController.bind(this);
         rPageStatusController.changePageStatus(RPageStatus.LOADING);
 
-        // 重置事件
         rPageStatusController
-                .resetOnRPageEventListener(RPageStatus.ERROR, new OnRPageEventListener() {
+                // 重置事件
+                .registerOnRPageEventListener(RPageStatus.ERROR, R.id.tv_error, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("重置全局错误页面事件 - " + pageStatus);

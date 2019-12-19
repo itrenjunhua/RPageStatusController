@@ -43,21 +43,9 @@ public class BindActivity2 extends AppCompatActivity {
 
         // 重置事件
         rPageStatusController
-                .resetOnRPageEventListener(RPageStatus.NET_WORK, new OnRPageEventListener() {
-                    @Override
-                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
-                        Utils.showToast("网络错误 - " + pageStatus);
-
-                        Utils.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                rPageStatusController.changePageStatus(RPageStatus.ERROR);
-                            }
-                        }, 3000);
-                    }
-                })
                 // 使用独立的加载错误页面
-                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2}, false, new OnRPageEventListener() {
+                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2)
+                .registerOnRPageEventListener(RPageStatus.ERROR, false, new int[]{R.id.tv_error, R.id.tv_error2}, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         if (viewId == R.id.tv_error2)
@@ -75,7 +63,20 @@ public class BindActivity2 extends AppCompatActivity {
                         }
                     }
                 })
-                // 注册状态页面布局监听
+                .registerOnRPageEventListener(RPageStatus.NET_WORK, R.id.tv_net_work, new OnRPageEventListener() {
+                    @Override
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
+                        Utils.showToast("网络错误 - " + pageStatus);
+
+                        Utils.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                rPageStatusController.changePageStatus(RPageStatus.ERROR);
+                            }
+                        }, 3000);
+                    }
+                })
+                // 注册状态页面布局监听，修改当前页面错误状态页面的按钮文字
                 .registerOnRPageViewListener(RPageStatus.ERROR, new OnRPageViewListener() {
                     @Override
                     public void onPageView(@NonNull IRPageStatusController iRPageStatusController, int pageStatus, @NonNull Object object, View statusRootView) {

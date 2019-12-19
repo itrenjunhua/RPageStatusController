@@ -38,10 +38,14 @@ public class MyApplication extends Application {
         RPageStatusManager.getInstance()
                 .addPageStatusView(RPageStatus.LOADING, R.layout.status_view_loading)
                 .addPageStatusView(RPageStatus.EMPTY, R.layout.status_view_empty)
-                .addPageStatusView(RPageStatus.NET_WORK, R.layout.status_view_network, R.id.tv_net_work, null)
-                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error, R.id.tv_error, new OnRPageEventListener() {
+                .addPageStatusView(RPageStatus.NET_WORK, R.layout.status_view_network)
+                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error)
+                // 注册全局点击监听
+                .registerOnRPageEventListener(RPageStatus.ERROR, R.id.tv_error, new OnRPageEventListener() {
                     @Override
-                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
+                    public void onViewClick(@NonNull IRPageStatusController iRPageStatusController,
+                                            @RPageStatus int pageStatus, @NonNull Object object,
+                                            @NonNull View view, int viewId) {
                         Utils.showToast("全局配置加载错误监听: " + object);
                         Log.i("MyApplication", "全局配置加载错误监听: iRPageStatusController = [" + iRPageStatusController + "]," +
                                 " pageStatus = [" + pageStatus + "], object = [" + object + "], view = [" + view + "], viewId = [" + viewId + "]");
