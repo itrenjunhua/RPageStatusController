@@ -14,7 +14,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
+import com.renj.pagestatuscontroller.listener.OnRPageFinishListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
@@ -186,6 +186,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * @return
      */
     @Override
+    @RPageStatus
     public int getCurrentPageStatus() {
         return mRPageStatusHelp.getCurrentPageStatus();
     }
@@ -285,15 +286,34 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容<br/>
      * <b>注意：调用该方法之前需要已经调用 addPageStatusView() 系列添加了状态布局，否则不会生效。</b>
      *
-     * @param pageStatus          页面状态
-     * @param onRPageViewListener 回调
+     * @param pageStatus            页面状态
+     * @param onRPageFinishListener 回调
      * @return
      */
     @Override
-    public RPageStatusController registerOnRPageViewListener(int pageStatus, OnRPageViewListener onRPageViewListener) {
+    public RPageStatusController registerOnRPageFinishListener(int pageStatus, OnRPageFinishListener onRPageFinishListener) {
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
-        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageViewListener)) {
-            rPageStatusLayoutInfo.onRPageViewListener = onRPageViewListener;
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageFinishListener)) {
+            rPageStatusLayoutInfo.onRPageFinishListener = onRPageFinishListener;
+        }
+        return this;
+    }
+
+    /**
+     * 隐藏(GONE 状态)某一状态下的部分控件，该方法是 {@link #registerOnRPageFinishListener(int, OnRPageFinishListener)} 特殊情况的简单实现，优先级较低<br/>
+     * <b>生效条件：<br/>
+     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
+     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
+     *
+     * @param pageStatus 页面状态
+     * @param viewIds    需要隐藏的控件ID
+     * @return
+     */
+    @Override
+    public RPageStatusController goneView(int pageStatus, int[] viewIds) {
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, viewIds)) {
+            rPageStatusLayoutInfo.goneViewIds = viewIds;
         }
         return this;
     }

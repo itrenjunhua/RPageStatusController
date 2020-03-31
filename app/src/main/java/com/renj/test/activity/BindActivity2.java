@@ -10,7 +10,7 @@ import com.renj.pagestatuscontroller.IRPageStatusController;
 import com.renj.pagestatuscontroller.RPageStatusController;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
+import com.renj.pagestatuscontroller.listener.OnRPageFinishListener;
 import com.renj.test.R;
 import com.renj.test.utils.Utils;
 
@@ -76,9 +76,9 @@ public class BindActivity2 extends AppCompatActivity {
                     }
                 })
                 // 注册状态页面布局监听
-                .registerOnRPageViewListener(RPageStatus.ERROR, new OnRPageViewListener() {
+                .registerOnRPageFinishListener(RPageStatus.ERROR, new OnRPageFinishListener() {
                     @Override
-                    public void onPageView(@NonNull IRPageStatusController iRPageStatusController, int pageStatus, @NonNull Object object, View statusRootView) {
+                    public void onViewFinish(@NonNull IRPageStatusController iRPageStatusController, int pageStatus, @NonNull Object object, View statusRootView) {
                         TextView tvError2 = statusRootView.findViewById(R.id.tv_error2);
                         tvError2.setText("点我吖！！！");
                     }

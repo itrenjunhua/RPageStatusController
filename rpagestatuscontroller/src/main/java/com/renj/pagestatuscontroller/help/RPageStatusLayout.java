@@ -50,7 +50,7 @@ public class RPageStatusLayout extends FrameLayout {
         mPageStatusViewArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
         mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
         mPageStatusViewArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
-        mPageStatusViewArray.put(RPageStatus.NOT_FOUND, (ViewStub) pageStatusView.findViewById(R.id.not_found_view));
+        mPageStatusViewArray.put(RPageStatus.UN_KNOWN, (ViewStub) pageStatusView.findViewById(R.id.un_known_view));
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
@@ -118,9 +118,16 @@ public class RPageStatusLayout extends FrameLayout {
                 viewStub.setLayoutResource(rPageStatusLayoutInfo.layoutId);
                 View statusView = viewStub.inflate();
 
+                if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo.goneViewIds) && rPageStatusLayoutInfo.goneViewIds.length > 0) {
+                    for (int goneViewId : rPageStatusLayoutInfo.goneViewIds) {
+                        View goneView = statusView.findViewById(goneViewId);
+                        if (!RPageStatusUtils.isNull(goneView)) goneView.setVisibility(GONE);
+                    }
+                }
+
                 // 如果注册了状态页面控件信息回调
-                if (rPageStatusLayoutInfo.onRPageViewListener != null) {
-                    rPageStatusLayoutInfo.onRPageViewListener.onPageView(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
+                if (rPageStatusLayoutInfo.onRPageFinishListener != null) {
+                    rPageStatusLayoutInfo.onRPageFinishListener.onViewFinish(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
                 }
 
                 // 如果有事件，增加监听事件
@@ -168,7 +175,7 @@ public class RPageStatusLayout extends FrameLayout {
         ViewStub emptyViewStub = mPageStatusViewArray.get(RPageStatus.EMPTY);
         ViewStub netWorkViewStub = mPageStatusViewArray.get(RPageStatus.NET_WORK);
         ViewStub errorViewStub = mPageStatusViewArray.get(RPageStatus.ERROR);
-        ViewStub notFoundViewStub = mPageStatusViewArray.get(RPageStatus.NOT_FOUND);
+        ViewStub notFoundViewStub = mPageStatusViewArray.get(RPageStatus.UN_KNOWN);
 
         if (pageStatus == RPageStatus.LOADING)
             loadingViewStub.setVisibility(VISIBLE);
@@ -195,7 +202,7 @@ public class RPageStatusLayout extends FrameLayout {
         else
             errorViewStub.setVisibility(GONE);
 
-        if (pageStatus == RPageStatus.NOT_FOUND)
+        if (pageStatus == RPageStatus.UN_KNOWN)
             notFoundViewStub.setVisibility(VISIBLE);
         else
             notFoundViewStub.setVisibility(GONE);

@@ -66,7 +66,7 @@ public class RPageStatusUtils {
             target.put(RPageStatus.EMPTY, src.get(RPageStatus.EMPTY, null));
             target.put(RPageStatus.NET_WORK, src.get(RPageStatus.NET_WORK, null));
             target.put(RPageStatus.ERROR, src.get(RPageStatus.ERROR, null));
-            target.put(RPageStatus.NOT_FOUND, src.get(RPageStatus.NOT_FOUND, null));
+            target.put(RPageStatus.UN_KNOWN, src.get(RPageStatus.UN_KNOWN, null));
         }
     }
 
@@ -91,9 +91,9 @@ public class RPageStatusUtils {
             RPageStatusLayoutInfo error = src.get(RPageStatus.ERROR, null);
             if (!isNull(error))
                 target.put(RPageStatus.ERROR, new RPageStatusLayoutInfo(error));
-            RPageStatusLayoutInfo notFound = src.get(RPageStatus.NOT_FOUND, null);
-            if (!isNull(notFound))
-                target.put(RPageStatus.NOT_FOUND, new RPageStatusLayoutInfo(notFound));
+            RPageStatusLayoutInfo unKnown = src.get(RPageStatus.UN_KNOWN, null);
+            if (!isNull(unKnown))
+                target.put(RPageStatus.UN_KNOWN, new RPageStatusLayoutInfo(unKnown));
         }
     }
 }
