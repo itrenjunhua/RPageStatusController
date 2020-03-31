@@ -15,7 +15,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageFinishListener;
+import com.renj.pagestatuscontroller.listener.OnRPageInflateFinishListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
@@ -186,10 +186,10 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * {@inheritDoc}
      */
     @Override
-    public RPageStatusController registerOnRPageFinishListener(int pageStatus, OnRPageFinishListener onRPageFinishListener) {
+    public RPageStatusController registerOnRPageInflateFinishListener(int pageStatus, OnRPageInflateFinishListener onRPageInflateFinishListener) {
         RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
-        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageFinishListener)) {
-            rPageStatusLayoutInfo.onRPageFinishListener = onRPageFinishListener;
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageInflateFinishListener)) {
+            rPageStatusLayoutInfo.onRPageInflateFinishListener = onRPageInflateFinishListener;
         }
         return this;
     }

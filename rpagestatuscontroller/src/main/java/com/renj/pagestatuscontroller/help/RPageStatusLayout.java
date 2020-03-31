@@ -126,8 +126,8 @@ public class RPageStatusLayout extends FrameLayout {
                 }
 
                 // 如果注册了状态页面控件信息回调
-                if (rPageStatusLayoutInfo.onRPageFinishListener != null) {
-                    rPageStatusLayoutInfo.onRPageFinishListener.onViewFinish(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
+                if (rPageStatusLayoutInfo.onRPageInflateFinishListener != null) {
+                    rPageStatusLayoutInfo.onRPageInflateFinishListener.onViewInflateFinish(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
                 }
 
                 // 如果有事件，增加监听事件

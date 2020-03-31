@@ -6,7 +6,7 @@ import android.support.annotation.LayoutRes;
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
 import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageFinishListener;
+import com.renj.pagestatuscontroller.listener.OnRPageInflateFinishListener;
 
 /**
  * ======================================================================
@@ -35,7 +35,7 @@ public class RPageStatusLayoutInfo {
     public int[] goneViewIds;
     public boolean showLoading;
     public OnRPageEventListener onRPageEventListener;
-    public OnRPageFinishListener onRPageFinishListener;
+    public OnRPageInflateFinishListener onRPageInflateFinishListener;
 
     public RPageStatusLayoutInfo(RPageStatusLayoutInfo rPageStatusLayoutInfo) {
         if (null != rPageStatusLayoutInfo) {
@@ -47,7 +47,7 @@ public class RPageStatusLayoutInfo {
             this.goneViewIds = rPageStatusLayoutInfo.goneViewIds;
             this.showLoading = rPageStatusLayoutInfo.showLoading;
             this.onRPageEventListener = rPageStatusLayoutInfo.onRPageEventListener;
-            this.onRPageFinishListener = rPageStatusLayoutInfo.onRPageFinishListener;
+            this.onRPageInflateFinishListener = rPageStatusLayoutInfo.onRPageInflateFinishListener;
         }
     }
 

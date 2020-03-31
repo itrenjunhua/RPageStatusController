@@ -19,7 +19,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatus;
  * <p>
  * ======================================================================
  */
-public interface OnRPageFinishListener {
+public interface OnRPageInflateFinishListener {
     /**
      * 获取当前状态页面的控件信息
      *
@@ -28,7 +28,7 @@ public interface OnRPageFinishListener {
      * @param object                 绑定的对象（调用bind()方法所传的参数；Activity、Fragment、View）
      * @param statusRootView         当前状态页面的根View
      */
-    void onViewFinish(@NonNull IRPageStatusController iRPageStatusController,
-                      @RPageStatus int pageStatus,
-                      @NonNull Object object, View statusRootView);
+    void onViewInflateFinish(@NonNull IRPageStatusController iRPageStatusController,
+                             @RPageStatus int pageStatus,
+                             @NonNull Object object, View statusRootView);
 }

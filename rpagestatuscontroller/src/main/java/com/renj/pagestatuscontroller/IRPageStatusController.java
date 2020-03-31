@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
-import com.renj.pagestatuscontroller.listener.OnRPageFinishListener;
+import com.renj.pagestatuscontroller.listener.OnRPageInflateFinishListener;
 
 /**
  * ======================================================================
@@ -80,13 +80,13 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * </b>
      *
      * @param pageStatus            页面状态
-     * @param onRPageFinishListener 回调
+     * @param onRPageInflateFinishListener 回调
      * @return
      */
-    T registerOnRPageFinishListener(@RPageStatus int pageStatus, OnRPageFinishListener onRPageFinishListener);
+    T registerOnRPageInflateFinishListener(@RPageStatus int pageStatus, OnRPageInflateFinishListener onRPageInflateFinishListener);
 
     /**
-     * 隐藏(GONE 状态)某一状态下的部分控件，该方法是 {@link #registerOnRPageFinishListener(int, OnRPageFinishListener)} 特殊情况的简单实现<br/>
+     * 隐藏(GONE 状态)某一状态下的部分控件，该方法是 {@link #registerOnRPageInflateFinishListener(int, OnRPageInflateFinishListener)} 特殊情况的简单实现<br/>
      * <b>生效条件：<br/>
      * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
      * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
