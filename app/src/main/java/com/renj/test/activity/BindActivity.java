@@ -43,7 +43,8 @@ public class BindActivity extends AppCompatActivity {
         // 重置事件
         rPageStatusController
                 // .goneView(RPageStatus.NET_WORK, new int[]{R.id.tv_net_work}) // 在错误页面隐藏ID为 tv_net_work 的控件
-                .resetOnRPageEventListener(RPageStatus.ERROR, new OnRPageEventListener() {
+                // 重置事件
+                .registerOnRPageEventListener(RPageStatus.ERROR, R.id.tv_error, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("重置全局错误页面事件 - " + pageStatus);
@@ -60,7 +61,7 @@ public class BindActivity extends AppCompatActivity {
         Utils.postDelayed(new Runnable() {
             @Override
             public void run() {
-                 // rPageStatusController.changePageStatus(RPageStatus.NET_WORK);
+                // rPageStatusController.changePageStatus(RPageStatus.NET_WORK);
                 rPageStatusController.changePageStatus(RPageStatus.ERROR);
             }
         }, 3000);

@@ -40,10 +40,13 @@ public class BindActivity2 extends AppCompatActivity {
         rPageStatusController = RPageStatusController.get();
 
         rPageStatusController.bind(this);
+        rPageStatusController.changePageStatus(RPageStatus.LOADING);
 
         // 重置事件
         rPageStatusController
-                .resetOnRPageEventListener(RPageStatus.NET_WORK, new OnRPageEventListener() {
+                // 使用独立的加载错误页面
+                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2)
+                .registerOnRPageEventListener(RPageStatus.NET_WORK, R.id.tv_net_work, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         Utils.showToast("网络错误 - " + pageStatus);
@@ -56,8 +59,7 @@ public class BindActivity2 extends AppCompatActivity {
                         }, 3000);
                     }
                 })
-                // 使用独立的加载错误页面
-                .addPageStatusView(RPageStatus.ERROR, R.layout.status_view_error2, new int[]{R.id.tv_error, R.id.tv_error2}, false, new OnRPageEventListener() {
+                .registerOnRPageEventListener(RPageStatus.ERROR, false, new int[]{R.id.tv_error, R.id.tv_error2}, new OnRPageEventListener() {
                     @Override
                     public void onViewClick(@NonNull IRPageStatusController iRPageStatusController, @RPageStatus int pageStatus, @NonNull Object object, @NonNull View view, int viewId) {
                         if (viewId == R.id.tv_error2)
@@ -83,8 +85,6 @@ public class BindActivity2 extends AppCompatActivity {
                         tvError2.setText("点我吖！！！");
                     }
                 });
-
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
 
         Utils.postDelayed(new Runnable() {
             @Override

@@ -1,6 +1,7 @@
 package com.renj.pagestatuscontroller;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,6 +33,7 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  * ======================================================================
  */
 public class RPageStatusController implements IRPageStatusController<RPageStatusController> {
+
     private SparseArray<RPageStatusLayoutInfo> mRPageStatusLayoutArray = new SparseArray<>();
     private RPageStatusHelp mRPageStatusHelp;
 
@@ -44,14 +46,76 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 绑定 {@link Activity}
-     *
-     * @param activity {@link Activity}
-     * @return
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId) {
+        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.NO_CLICK);
+        mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController registerOnRPageEventListener(int pageStatus, @IdRes int viewId,
+                                                              @Nullable OnRPageEventListener onRPageEventListener) {
+        return registerOnRPageEventListener(pageStatus, true, viewId, onRPageEventListener);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController registerOnRPageEventListener(int pageStatus, boolean showLoading, @IdRes int viewId,
+                                                              @Nullable OnRPageEventListener onRPageEventListener) {
+        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
+            rPageStatusLayoutInfo.viewId = viewId;
+            rPageStatusLayoutInfo.showLoading = showLoading;
+            rPageStatusLayoutInfo.rPageStatusEvent = RPageStatusEvent.SINGLE_VIEW_CLICK;
+            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
+            mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController registerOnRPageEventListener(int pageStatus, @IdRes int[] viewIds,
+                                                              @Nullable OnRPageEventListener onRPageEventListener) {
+        return registerOnRPageEventListener(pageStatus, true, viewIds, onRPageEventListener);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController registerOnRPageEventListener(int pageStatus, boolean showLoading, @IdRes int[] viewIds,
+                                                              @Nullable OnRPageEventListener onRPageEventListener) {
+        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
+            rPageStatusLayoutInfo.viewIds = viewIds;
+            rPageStatusLayoutInfo.showLoading = showLoading;
+            rPageStatusLayoutInfo.rPageStatusEvent = RPageStatusEvent.MORE_VIEW_CLICK;
+            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
+            mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     @Override
     public void bind(@NonNull Activity activity) {
-        checkBindingStatus();
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
         RPageStatusUtils.checkParams(activity);
         ViewGroup contentView = activity.findViewById(android.R.id.content);
         if (RPageStatusUtils.isNull(contentView))
@@ -66,44 +130,33 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 绑定 {@link Fragment}
-     *
-     * @param fragment {@link Fragment}
-     * @param view     {@link Fragment}根View
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public View bind(@NonNull Fragment fragment, @NonNull View view) {
-        checkBindingStatus();
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
         RPageStatusUtils.checkParams(fragment, view);
         mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
         return mRPageStatusHelp.bindFragmentSupport();
     }
 
     /**
-     * 绑定 {@link android.app.Fragment}
-     *
-     * @param fragment {@link android.app.Fragment}
-     * @param view     {@link android.app.Fragment}根View
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public View bind(@NonNull android.app.Fragment fragment, @NonNull View view) {
-        checkBindingStatus();
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
         RPageStatusUtils.checkParams(fragment, view);
         mRPageStatusHelp = new RPageStatusHelp(fragment.getActivity(), this, fragment, null, view);
         return mRPageStatusHelp.bindFragment();
     }
 
     /**
-     * 绑定到 {@link View}
-     *
-     * @param view {@link View}
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public void bind(@NonNull View view) {
-        checkBindingStatus();
+        RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
         RPageStatusUtils.checkParams(view);
         ViewGroup parentView = (ViewGroup) view.getParent();
         if (RPageStatusUtils.isNull(parentView))
@@ -113,58 +166,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 重置某一状态的事件监听 另看 {@link #resetOnRPageEventListener(int, boolean, OnRPageEventListener)} <br/>
-     * <b>生效条件：<br/>
-     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
-     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
-     *
-     * @param pageStatus           需要重置监听事件的状态
-     * @param onRPageEventListener 监听事件对象
-     * @return
-     */
-    @Override
-    public RPageStatusController resetOnRPageEventListener(@RPageStatus int pageStatus,
-                                                           OnRPageEventListener onRPageEventListener) {
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
-        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
-            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
-        }
-
-        return this;
-    }
-
-    /**
-     * 重置某一状态的事件监听。<br/>
-     * <b>生效条件：<br/>
-     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
-     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
-     *
-     * @param pageStatus           需要重置监听事件的状态
-     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
-     * @param onRPageEventListener 监听事件对象
-     * @return
-     */
-    @Override
-    public RPageStatusController resetOnRPageEventListener(int pageStatus, boolean showLoading,
-                                                           OnRPageEventListener onRPageEventListener) {
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
-        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageEventListener)) {
-            rPageStatusLayoutInfo.onRPageEventListener = onRPageEventListener;
-            rPageStatusLayoutInfo.showLoading = showLoading;
-        }
-
-        return this;
-    }
-
-    private void checkBindingStatus() {
-        if (!RPageStatusUtils.isNull(mRPageStatusHelp))
-            throw new IllegalStateException("RPageStatusController Exception: Cannot repeat binding.");
-    }
-
-    /**
-     * 修改页面状态
-     *
-     * @param pageStatus 状态值
+     * {@inheritDoc}
      */
     @Override
     public void changePageStatus(@RPageStatus int pageStatus) {
@@ -181,114 +183,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 获取当前的页面状态
-     *
-     * @return
-     */
-    @Override
-    @RPageStatus
-    public int getCurrentPageStatus() {
-        return mRPageStatusHelp.getCurrentPageStatus();
-    }
-
-    /**
-     * 增加状态页面布局
-     *
-     * @param pageStatus 页面状态 {@link RPageStatus}
-     * @param layoutId   布局资源id
-     * @return
-     */
-    @Override
-    public RPageStatusController addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId) {
-        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.NO_CLICK);
-        mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
-    }
-
-    /**
-     * 增加状态页面布局，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
-     * 如果不需要修改，请调用 {@link #addPageStatusView(int, int, int, boolean, OnRPageEventListener)} 方法修改
-     *
-     * @param pageStatus           页面状态 {@link RPageStatus}
-     * @param layoutId             布局资源id
-     * @param viewId               布局文件中有点击事件的View的id
-     * @param onRPageEventListener 点击事件回调监听
-     * @return
-     */
-    @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int viewId,
-                                                   @Nullable OnRPageEventListener onRPageEventListener) {
-        return addPageStatusView(pageStatus, layoutId, viewId, true, onRPageEventListener);
-    }
-
-
-    /**
-     * 增加状态页面布局
-     *
-     * @param pageStatus           页面状态 {@link RPageStatus}
-     * @param layoutId             布局资源id
-     * @param viewId               布局文件中有点击事件的View的id
-     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
-     * @param onRPageEventListener 点击事件回调监听
-     * @return
-     */
-    @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId,
-                                                   int viewId, boolean showLoading,
-                                                   @Nullable OnRPageEventListener onRPageEventListener) {
-        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus,
-                layoutId, RPageStatusEvent.SINGLE_VIEW_CLICK, viewId, showLoading, onRPageEventListener);
-        mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
-    }
-
-    /**
-     * 增加状态页面布局，点击时会将页面修改为 {@link RPageStatus#LOADING} 状态，
-     * 如果不需要修改，请调用 {@link #addPageStatusView(int, int, int[], boolean, OnRPageEventListener)} 方法修改
-     *
-     * @param pageStatus           页面状态 {@link RPageStatus}
-     * @param layoutId             布局资源id
-     * @param viewIds              布局文件中有点击事件的View的id集合
-     * @param onRPageEventListener 点击事件回调监听
-     * @return
-     */
-    @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId, int[] viewIds,
-                                                   @Nullable OnRPageEventListener onRPageEventListener) {
-        return addPageStatusView(pageStatus, layoutId, viewIds, true, onRPageEventListener);
-    }
-
-
-    /**
-     * 增加状态页面布局
-     *
-     * @param pageStatus           页面状态 {@link RPageStatus}
-     * @param layoutId             布局资源id
-     * @param viewIds              布局文件中有点击事件的View的id集合
-     * @param showLoading          点击时是否自动显示成 {@link RPageStatus#LOADING} 状态
-     * @param onRPageEventListener 点击事件回调监听
-     * @return
-     */
-    @Override
-    public RPageStatusController addPageStatusView(int pageStatus, int layoutId,
-                                                   int[] viewIds, boolean showLoading,
-                                                   @Nullable OnRPageEventListener onRPageEventListener) {
-        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus,
-                layoutId, RPageStatusEvent.MORE_VIEW_CLICK, viewIds, showLoading, onRPageEventListener);
-        mRPageStatusLayoutArray.put(pageStatus, rPageStatusLayoutInfo);
-        return this;
-    }
-
-    /**
-     * 注册某一个状态页面布局监听，可以在回调中获取到状态页面信息，获取到子控件并显示、隐藏或者修改子控件内容<br/>
-     * <b>注意：调用该方法之前需要已经调用 addPageStatusView() 系列添加了状态布局，否则不会生效。</b>
-     *
-     * @param pageStatus            页面状态
-     * @param onRPageFinishListener 回调
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public RPageStatusController registerOnRPageFinishListener(int pageStatus, OnRPageFinishListener onRPageFinishListener) {
@@ -300,14 +195,7 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
     }
 
     /**
-     * 隐藏(GONE 状态)某一状态下的部分控件，该方法是 {@link #registerOnRPageFinishListener(int, OnRPageFinishListener)} 特殊情况的简单实现，优先级较低<br/>
-     * <b>生效条件：<br/>
-     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
-     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
-     *
-     * @param pageStatus 页面状态
-     * @param viewIds    需要隐藏的控件ID
-     * @return
+     * {@inheritDoc}
      */
     @Override
     public RPageStatusController goneView(int pageStatus, int[] viewIds) {
@@ -316,5 +204,13 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
             rPageStatusLayoutInfo.goneViewIds = viewIds;
         }
         return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getCurrentPageStatus() {
+        return mRPageStatusHelp.getCurrentPageStatus();
     }
 }

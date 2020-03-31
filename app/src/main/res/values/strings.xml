@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">页面状态控制框架</string>
+    <string name="app_name">状态控制</string>
     <string name="bt_bind_activity">绑定到Activity</string>
     <string name="bt_bind_activity2">绑定到Activity(使用单独的状态页面)</string>
     <string name="bt_bind_fragment">绑定到Fragment</string>

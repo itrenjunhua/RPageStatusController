@@ -11,6 +11,7 @@
 /.idea/assetWizardSettings.xml
 /.idea/markdown-navigator
 /.idea/markdown-navigator.xml
+.idea/markdown-doclet.xml
 /.idea/markdown-exported-files.xml
 .DS_Store
 /build

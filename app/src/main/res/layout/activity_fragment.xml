@@ -15,7 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/bt_bind_fragment"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/bt_fragment2"
@@ -23,7 +24,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/bt_bind_fragment2"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
