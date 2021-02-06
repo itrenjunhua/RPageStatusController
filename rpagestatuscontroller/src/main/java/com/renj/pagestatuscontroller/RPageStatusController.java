@@ -48,14 +48,6 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * {@inheritDoc}
      */
     @Override
-    public int getCurrentPageStatus() {
-        return mRPageStatusHelp.getCurrentPageStatus();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public RPageStatusController addPageStatusView(@RPageStatus int pageStatus, @LayoutRes int layoutId) {
         RPageStatusUtils.checkAddContentStatusPage(pageStatus);
         RPageStatusLayoutInfo rPageStatusLayoutInfo = new RPageStatusLayoutInfo(pageStatus, layoutId, RPageStatusEvent.NO_CLICK);
@@ -200,5 +192,21 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         }
 
         mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int getCurrentPageStatus() {
+        return mRPageStatusHelp.getCurrentPageStatus();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public View getStatusRootView(@RPageStatus int pageStatus) {
+        return mRPageStatusHelp.getStatusRootView(pageStatus);
     }
 }

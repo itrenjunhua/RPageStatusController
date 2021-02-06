@@ -91,4 +91,11 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * @return {@link RPageStatus}
      */
     int getCurrentPageStatus();
+
+    /**
+     * 获取指定状态的根布局。注意：需要在 {@link #changePageStatus(int)} 之后才有数据
+     *
+     * @param pageStatus 指定状态 {@link RPageStatus}
+     */
+    View getStatusRootView(@RPageStatus int pageStatus);
 }

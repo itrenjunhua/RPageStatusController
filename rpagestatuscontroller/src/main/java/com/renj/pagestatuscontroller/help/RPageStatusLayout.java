@@ -32,7 +32,8 @@ import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
  */
 public class RPageStatusLayout extends FrameLayout {
     // 初始化的页面信息
-    private SparseArray<ViewStub> mPageStatusViewArray = new SparseArray<>();
+    private SparseArray<ViewStub> mPageStatusViewStubArray = new SparseArray<>();
+    private SparseArray<View> mPageStatusViewArray = new SparseArray<>();
     // 绑定信息
     private RPageStatusBindInfo mRPageStatusBindInfo;
     private IRPageStatusController mRPageStatusController;
@@ -46,11 +47,11 @@ public class RPageStatusLayout extends FrameLayout {
 
     private void initView(Context context) {
         View pageStatusView = LayoutInflater.from(context).inflate(R.layout.r_page_status_layout, this, true);
-        mPageStatusViewArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
-        mPageStatusViewArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
-        mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
-        mPageStatusViewArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
-        mPageStatusViewArray.put(RPageStatus.NOT_FOUND, (ViewStub) pageStatusView.findViewById(R.id.not_found_view));
+        mPageStatusViewStubArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
+        mPageStatusViewStubArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
+        mPageStatusViewStubArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
+        mPageStatusViewStubArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
+        mPageStatusViewStubArray.put(RPageStatus.NOT_FOUND, (ViewStub) pageStatusView.findViewById(R.id.not_found_view));
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
@@ -112,11 +113,13 @@ public class RPageStatusLayout extends FrameLayout {
     public void changePageStatus(@RPageStatus int pageStatus, @NonNull SparseArray<RPageStatusLayoutInfo> rPageStatusLayoutInfoSparseArray) {
         final RPageStatusLayoutInfo rPageStatusLayoutInfo = rPageStatusLayoutInfoSparseArray.get(pageStatus, null);
         if (rPageStatusLayoutInfo != null) {
-            ViewStub viewStub = mPageStatusViewArray.get(pageStatus);
+            ViewStub viewStub = mPageStatusViewStubArray.get(pageStatus);
             // 判断 ViewStub 是否已经 inflate() 过
             if (!RPageStatusUtils.isNull(viewStub.getParent())) {
                 viewStub.setLayoutResource(rPageStatusLayoutInfo.layoutId);
                 View statusView = viewStub.inflate();
+                // 各种状态页面根布局
+                mPageStatusViewArray.put(pageStatus, statusView);
 
                 // 如果注册了状态页面控件信息回调
                 if (rPageStatusLayoutInfo.onRPageViewListener != null) {
@@ -164,11 +167,11 @@ public class RPageStatusLayout extends FrameLayout {
         if (currentPageStatus == pageStatus) return;
         currentPageStatus = pageStatus;
 
-        ViewStub loadingViewStub = mPageStatusViewArray.get(RPageStatus.LOADING);
-        ViewStub emptyViewStub = mPageStatusViewArray.get(RPageStatus.EMPTY);
-        ViewStub netWorkViewStub = mPageStatusViewArray.get(RPageStatus.NET_WORK);
-        ViewStub errorViewStub = mPageStatusViewArray.get(RPageStatus.ERROR);
-        ViewStub notFoundViewStub = mPageStatusViewArray.get(RPageStatus.NOT_FOUND);
+        ViewStub loadingViewStub = mPageStatusViewStubArray.get(RPageStatus.LOADING);
+        ViewStub emptyViewStub = mPageStatusViewStubArray.get(RPageStatus.EMPTY);
+        ViewStub netWorkViewStub = mPageStatusViewStubArray.get(RPageStatus.NET_WORK);
+        ViewStub errorViewStub = mPageStatusViewStubArray.get(RPageStatus.ERROR);
+        ViewStub notFoundViewStub = mPageStatusViewStubArray.get(RPageStatus.NOT_FOUND);
 
         if (pageStatus == RPageStatus.LOADING)
             loadingViewStub.setVisibility(VISIBLE);
@@ -203,5 +206,14 @@ public class RPageStatusLayout extends FrameLayout {
 
     public int getCurrentPageStatus() {
         return currentPageStatus;
+    }
+
+    /**
+     * 获取指定状态的根布局。注意：需要在 {@link #changePageStatus(int, SparseArray)} 之后才有数据
+     *
+     * @param pageStatus 指定状态
+     */
+    public View getStatusRootView(@RPageStatus int pageStatus) {
+        return mPageStatusViewArray.get(pageStatus);
     }
 }
