@@ -47,11 +47,11 @@ public class RPageStatusLayout extends FrameLayout {
 
     private void initView(Context context) {
         View pageStatusView = LayoutInflater.from(context).inflate(R.layout.r_page_status_layout, this, true);
-        mPageStatusViewArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
-        mPageStatusViewArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
-        mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
-        mPageStatusViewArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
-        mPageStatusViewArray.put(RPageStatus.UN_KNOWN, (ViewStub) pageStatusView.findViewById(R.id.un_known_view));
+        mPageStatusViewStubArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
+        mPageStatusViewStubArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
+        mPageStatusViewStubArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
+        mPageStatusViewStubArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
+        mPageStatusViewStubArray.put(RPageStatus.UN_KNOWN, (ViewStub) pageStatusView.findViewById(R.id.un_known_view));
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
