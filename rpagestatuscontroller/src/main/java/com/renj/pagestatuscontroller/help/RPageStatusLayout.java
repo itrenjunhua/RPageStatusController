@@ -47,11 +47,11 @@ public class RPageStatusLayout extends FrameLayout {
 
     private void initView(Context context) {
         View pageStatusView = LayoutInflater.from(context).inflate(R.layout.r_page_status_layout, this, true);
-        mPageStatusViewStubArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
-        mPageStatusViewStubArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
-        mPageStatusViewStubArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
-        mPageStatusViewStubArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
-        mPageStatusViewStubArray.put(RPageStatus.NOT_FOUND, (ViewStub) pageStatusView.findViewById(R.id.not_found_view));
+        mPageStatusViewArray.put(RPageStatus.LOADING, (ViewStub) pageStatusView.findViewById(R.id.loading_view));
+        mPageStatusViewArray.put(RPageStatus.EMPTY, (ViewStub) pageStatusView.findViewById(R.id.empty_view));
+        mPageStatusViewArray.put(RPageStatus.NET_WORK, (ViewStub) pageStatusView.findViewById(R.id.net_work_view));
+        mPageStatusViewArray.put(RPageStatus.ERROR, (ViewStub) pageStatusView.findViewById(R.id.error_view));
+        mPageStatusViewArray.put(RPageStatus.UN_KNOWN, (ViewStub) pageStatusView.findViewById(R.id.un_known_view));
     }
 
     public void bindActivity(@NonNull RPageStatusBindInfo rPageStatusBindInfo) {
@@ -121,9 +121,16 @@ public class RPageStatusLayout extends FrameLayout {
                 // 各种状态页面根布局
                 mPageStatusViewArray.put(pageStatus, statusView);
 
+                if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo.goneViewIds) && rPageStatusLayoutInfo.goneViewIds.length > 0) {
+                    for (int goneViewId : rPageStatusLayoutInfo.goneViewIds) {
+                        View goneView = statusView.findViewById(goneViewId);
+                        if (!RPageStatusUtils.isNull(goneView)) goneView.setVisibility(GONE);
+                    }
+                }
+
                 // 如果注册了状态页面控件信息回调
-                if (rPageStatusLayoutInfo.onRPageViewListener != null) {
-                    rPageStatusLayoutInfo.onRPageViewListener.onPageView(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
+                if (rPageStatusLayoutInfo.onRPageInflateFinishListener != null) {
+                    rPageStatusLayoutInfo.onRPageInflateFinishListener.onViewInflateFinish(mRPageStatusController, pageStatus, mRPageStatusBindInfo.object, statusView);
                 }
 
                 // 如果有事件，增加监听事件
@@ -167,11 +174,11 @@ public class RPageStatusLayout extends FrameLayout {
         if (currentPageStatus == pageStatus) return;
         currentPageStatus = pageStatus;
 
-        ViewStub loadingViewStub = mPageStatusViewStubArray.get(RPageStatus.LOADING);
-        ViewStub emptyViewStub = mPageStatusViewStubArray.get(RPageStatus.EMPTY);
-        ViewStub netWorkViewStub = mPageStatusViewStubArray.get(RPageStatus.NET_WORK);
-        ViewStub errorViewStub = mPageStatusViewStubArray.get(RPageStatus.ERROR);
-        ViewStub notFoundViewStub = mPageStatusViewStubArray.get(RPageStatus.NOT_FOUND);
+        ViewStub loadingViewStub = mPageStatusViewArray.get(RPageStatus.LOADING);
+        ViewStub emptyViewStub = mPageStatusViewArray.get(RPageStatus.EMPTY);
+        ViewStub netWorkViewStub = mPageStatusViewArray.get(RPageStatus.NET_WORK);
+        ViewStub errorViewStub = mPageStatusViewArray.get(RPageStatus.ERROR);
+        ViewStub notFoundViewStub = mPageStatusViewArray.get(RPageStatus.UN_KNOWN);
 
         if (pageStatus == RPageStatus.LOADING)
             loadingViewStub.setVisibility(VISIBLE);
@@ -198,7 +205,7 @@ public class RPageStatusLayout extends FrameLayout {
         else
             errorViewStub.setVisibility(GONE);
 
-        if (pageStatus == RPageStatus.NOT_FOUND)
+        if (pageStatus == RPageStatus.UN_KNOWN)
             notFoundViewStub.setVisibility(VISIBLE);
         else
             notFoundViewStub.setVisibility(GONE);

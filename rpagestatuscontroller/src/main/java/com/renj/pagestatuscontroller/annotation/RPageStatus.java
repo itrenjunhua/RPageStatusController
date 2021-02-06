@@ -26,7 +26,7 @@ import java.lang.annotation.RetentionPolicy;
         RPageStatus.CONTENT,
         RPageStatus.NET_WORK,
         RPageStatus.ERROR,
-        RPageStatus.NOT_FOUND,
+        RPageStatus.UN_KNOWN,
 })
 public @interface RPageStatus {
     /**
@@ -50,7 +50,7 @@ public @interface RPageStatus {
      */
     int ERROR = 104;
     /**
-     * 没找到内容页面状态
+     * 未知状态
      */
-    int NOT_FOUND = 105;
+    int UN_KNOWN = 105;
 }

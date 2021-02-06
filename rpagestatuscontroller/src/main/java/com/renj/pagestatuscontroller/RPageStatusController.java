@@ -15,7 +15,7 @@ import com.renj.pagestatuscontroller.annotation.RPageStatusEvent;
 import com.renj.pagestatuscontroller.help.RPageStatusHelp;
 import com.renj.pagestatuscontroller.help.RPageStatusLayoutInfo;
 import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
+import com.renj.pagestatuscontroller.listener.OnRPageInflateFinishListener;
 import com.renj.pagestatuscontroller.utils.RPageStatusUtils;
 
 /**
@@ -113,19 +113,6 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
      * {@inheritDoc}
      */
     @Override
-    public RPageStatusController registerOnRPageViewListener(int pageStatus, OnRPageViewListener onRPageViewListener) {
-        RPageStatusUtils.checkAddContentStatusPage(pageStatus);
-        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
-        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageViewListener)) {
-            rPageStatusLayoutInfo.onRPageViewListener = onRPageViewListener;
-        }
-        return this;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public void bind(@NonNull Activity activity) {
         RPageStatusUtils.checkBindingStatus(mRPageStatusHelp);
         RPageStatusUtils.checkParams(activity);
@@ -192,6 +179,30 @@ public class RPageStatusController implements IRPageStatusController<RPageStatus
         }
 
         mRPageStatusHelp.changePageStatus(pageStatus, mRPageStatusLayoutArray);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController registerOnRPageInflateFinishListener(int pageStatus, OnRPageInflateFinishListener onRPageInflateFinishListener) {
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, onRPageInflateFinishListener)) {
+            rPageStatusLayoutInfo.onRPageInflateFinishListener = onRPageInflateFinishListener;
+        }
+        return this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RPageStatusController goneView(int pageStatus, int[] viewIds) {
+        RPageStatusLayoutInfo rPageStatusLayoutInfo = mRPageStatusLayoutArray.get(pageStatus);
+        if (!RPageStatusUtils.isNull(rPageStatusLayoutInfo, viewIds)) {
+            rPageStatusLayoutInfo.goneViewIds = viewIds;
+        }
+        return this;
     }
 
     /**

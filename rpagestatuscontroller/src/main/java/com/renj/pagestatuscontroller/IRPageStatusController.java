@@ -1,13 +1,13 @@
 package com.renj.pagestatuscontroller;
 
 import android.app.Activity;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
-import com.renj.pagestatuscontroller.listener.OnRPageEventListener;
-import com.renj.pagestatuscontroller.listener.OnRPageViewListener;
+import com.renj.pagestatuscontroller.listener.OnRPageInflateFinishListener;
 
 /**
  * ======================================================================
@@ -79,11 +79,23 @@ public interface IRPageStatusController<T extends IRPageStatusController> extend
      * （离调用 {@link IRPageStatusController#changePageStatus(int)} 方法前面最近的一次）
      * </b>
      *
-     * @param pageStatus          页面状态
-     * @param onRPageViewListener 回调
+     * @param pageStatus            页面状态
+     * @param onRPageInflateFinishListener 回调
      * @return
      */
-    T registerOnRPageViewListener(@RPageStatus int pageStatus, OnRPageViewListener onRPageViewListener);
+    T registerOnRPageInflateFinishListener(@RPageStatus int pageStatus, OnRPageInflateFinishListener onRPageInflateFinishListener);
+
+    /**
+     * 隐藏(GONE 状态)某一状态下的部分控件，该方法是 {@link #registerOnRPageInflateFinishListener(int, OnRPageInflateFinishListener)} 特殊情况的简单实现<br/>
+     * <b>生效条件：<br/>
+     * 1.配置了该状态（调用了相关方法，设置了全局或独立的该状态的状态页面）<br/>
+     * 2.还没有调用过 {@link #changePageStatus(int)} 方法设置该状态</b>
+     *
+     * @param pageStatus 页面状态
+     * @param viewIds    需要隐藏的控件ID
+     * @return
+     */
+    T goneView(@RPageStatus int pageStatus, @IdRes int[] viewIds);
 
     /**
      * 获取当前的页面状态

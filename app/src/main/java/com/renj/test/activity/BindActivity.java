@@ -37,7 +37,12 @@ public class BindActivity extends AppCompatActivity {
 
         rPageStatusController = RPageStatusController.get();
 
+        rPageStatusController.bind(this);
+        rPageStatusController.changePageStatus(RPageStatus.LOADING);
+
+        // 重置事件
         rPageStatusController
+                // .goneView(RPageStatus.NET_WORK, new int[]{R.id.tv_net_work}) // 在错误页面隐藏ID为 tv_net_work 的控件
                 // 重置事件
                 .registerOnRPageEventListener(RPageStatus.ERROR, R.id.tv_error, new OnRPageEventListener() {
                     @Override
@@ -56,11 +61,9 @@ public class BindActivity extends AppCompatActivity {
         Utils.postDelayed(new Runnable() {
             @Override
             public void run() {
+                // rPageStatusController.changePageStatus(RPageStatus.NET_WORK);
                 rPageStatusController.changePageStatus(RPageStatus.ERROR);
             }
         }, 3000);
-
-        rPageStatusController.bind(this);
-        rPageStatusController.changePageStatus(RPageStatus.LOADING);
     }
 }

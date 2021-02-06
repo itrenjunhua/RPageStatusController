@@ -22,7 +22,7 @@
         android:layout_height="match_parent" />
 
     <ViewStub
-        android:id="@+id/not_found_view"
+        android:id="@+id/un_known_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
