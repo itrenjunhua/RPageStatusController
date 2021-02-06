@@ -174,11 +174,11 @@ public class RPageStatusLayout extends FrameLayout {
         if (currentPageStatus == pageStatus) return;
         currentPageStatus = pageStatus;
 
-        ViewStub loadingViewStub = mPageStatusViewArray.get(RPageStatus.LOADING);
-        ViewStub emptyViewStub = mPageStatusViewArray.get(RPageStatus.EMPTY);
-        ViewStub netWorkViewStub = mPageStatusViewArray.get(RPageStatus.NET_WORK);
-        ViewStub errorViewStub = mPageStatusViewArray.get(RPageStatus.ERROR);
-        ViewStub notFoundViewStub = mPageStatusViewArray.get(RPageStatus.UN_KNOWN);
+        ViewStub loadingViewStub = mPageStatusViewStubArray.get(RPageStatus.LOADING);
+        ViewStub emptyViewStub = mPageStatusViewStubArray.get(RPageStatus.EMPTY);
+        ViewStub netWorkViewStub = mPageStatusViewStubArray.get(RPageStatus.NET_WORK);
+        ViewStub errorViewStub = mPageStatusViewStubArray.get(RPageStatus.ERROR);
+        ViewStub notFoundViewStub = mPageStatusViewStubArray.get(RPageStatus.UN_KNOWN);
 
         if (pageStatus == RPageStatus.LOADING)
             loadingViewStub.setVisibility(VISIBLE);
