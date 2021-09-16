@@ -1,6 +1,6 @@
 package com.renj.pagestatuscontroller.utils;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.SparseArray;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;

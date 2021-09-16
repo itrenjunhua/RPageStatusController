@@ -1,9 +1,9 @@
 package com.renj.pagestatuscontroller;
 
 import android.app.Activity;
-import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
 import com.renj.pagestatuscontroller.annotation.RPageStatus;
